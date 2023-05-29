@@ -1,5 +1,6 @@
 package presentatie;
 
+import data.DataLaag;
 import logica.AantalBanen;
 import logica.Adres;
 import logica.Lengte;
@@ -8,9 +9,10 @@ import logica.Zwembad;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class ZwembadGUI {
-    private JLabel labelTitel;
     private JLabel labelAdresTitel;
     private JTextField textFieldStraat;
     private JTextField textFieldGemeente;
@@ -30,6 +32,8 @@ public class ZwembadGUI {
     private JLabel labelAantalBanenTitel;
     private JPanel mainPanel;
     private JLabel labelErrorZwembad;
+    private JTextArea textAreaZwembadOverzicht;
+    private JLabel labelZwembadenOverzicht;
 
     private void ComboVuller() {
         for (Lengte lengte : Lengte.values()) {
@@ -40,17 +44,37 @@ public class ZwembadGUI {
         }
     }
 
+    private void zwembadLijstWeergave (ArrayList<Zwembad> zwembaden) {
+        String list = "";
+        for (Zwembad zwb : zwembaden) {
+            list += zwb + "\n";
+        }
+        textAreaZwembadOverzicht.setText(list);
+    }
+
+    private Adres maakAdres () {
+        return new Adres(textFieldStraat.getText(), textFieldHuisnr.getText(), textFieldGemeente.getText(), Integer.parseInt(textFieldPostcode.getText()));
+    }
+
+    private Zwembad maakZwembad () {
+        return new Zwembad(maakAdres(), textFieldNaam.getText(), Lengte.valueOf(comboBoxLengte.getSelectedItem().toString().replaceFirst("", "_")), AantalBanen.valueOf(comboBoxAantalBanen.getSelectedItem().toString().replaceFirst("", "_")));
+    }
     public ZwembadGUI() {
         ComboVuller();
         buttonMaakZwembad.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    Adres adres = new Adres(textFieldStraat.getText(), textFieldHuisnr.getText(), textFieldGemeente.getText(), Integer.parseInt(textFieldPostcode.getText()));
-                    Zwembad zwembad = new Zwembad(adres, textFieldNaam.getText(), Lengte.valueOf(comboBoxLengte.getSelectedItem().toString().replaceFirst("", "_")), AantalBanen.valueOf(comboBoxAantalBanen.getSelectedItem().toString().replaceFirst("", "_")));
-                    labelErrorZwembad.setText(zwembad.toString());
+                    DataLaag dl = new DataLaag();
+                    dl.maakAdresAan(maakAdres());
+                    dl.maakZwembadAan(maakZwembad());
+                    labelErrorZwembad.setText("Zwembad aangemaakt!");
+                    ArrayList<Zwembad> zwembadenList = dl.geefZwembadenMetAdressen();
+                    zwembadLijstWeergave(zwembadenList);
                 } catch (IllegalArgumentException ex) {
                     labelErrorZwembad.setText(ex.getMessage());
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
                 }
 
 
@@ -62,6 +86,7 @@ public class ZwembadGUI {
         JFrame frame = new JFrame("ZwembadGUI");
         frame.setContentPane(new ZwembadGUI().mainPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setTitle("Zwembad aanmaken");
         frame.pack();
         frame.setVisible(true);
     }

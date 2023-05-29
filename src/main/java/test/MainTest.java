@@ -1,6 +1,7 @@
 package test;
 
 import data.DataLaag;
+import logica.Adres;
 
 import java.sql.SQLException;
 
@@ -12,22 +13,19 @@ import java.sql.SQLException;
  */
 public class MainTest {
     public static void main(String[] args) throws SQLException {
-        DataLaag dl = new DataLaag();
+//        DataLaag dl = new DataLaag();
+//
+//        System.out.println("voor update: ");
+//        for (Adres adres : dl.geefAdressenLijst()) {
+//            System.out.println(adres);
+//        }
+//        System.out.println(dl.maakAdresAan(new Adres("testSTraat",  "4",  "Gent", 9000)));
+//        System.out.println("na update: ");
+//        for (Adres adres : dl.geefAdressenLijst()) {
+//        System.out.println(adres);
+//    }
 
 
-
-        for (Dvd dvd : dl.geefDvdLijst()) {
-            System.out.println(dvd);
-        }
-        Klant Luca = new Klant("luca", "vlakdaar 6", 9000, "Gent", new java.sql.Date(System.currentTimeMillis()), "0498844674");
-        System.out.println("voeg klant toe");
-        System.out.println(dl.maakKlantAan(Luca));
-        System.out.println("doe ontlening");
-//        dl.doeOntlening(Luca, 101);
-        for (Dvd dvd : dl.geefDvdLijst()) {
-            System.out.println(dvd);
-        }
 
     }
-}
 }
