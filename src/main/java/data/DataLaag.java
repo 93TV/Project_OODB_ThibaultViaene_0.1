@@ -89,7 +89,7 @@ public class DataLaag {
 
     private boolean checkAdres(Adres a) throws SQLException {
         Statement stmt = this.con.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
-        ResultSet rs = stmt.executeQuery("Select * FROM zwembaden");
+        ResultSet rs = stmt.executeQuery("Select * FROM adressen");
         while (rs.next()) {
             String straat = rs.getString("straat");
             String huisNummer = rs.getString("huisnummer");
@@ -103,22 +103,19 @@ public class DataLaag {
         return false;
     }
 
-    private int checkZwembad(Zwembad zwb) throws SQLException {
+    private boolean checkZwembad(Zwembad zwb) throws SQLException {
         Statement stmt = this.con.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
         ResultSet rs = stmt.executeQuery("Select * FROM zwembaden");
         while (rs.next()) {
-            int id = rs.getInt("id");
-            String naam = rs.getString("naam");
-            String adres = rs.getString("adres");
-            int postcode = rs.getInt("postcode");
+            String straat = rs.getString("straat");
+            String huisNummer = rs.getString("huisnummer");
             String gemeente = rs.getString("gemeente");
-            java.sql.Date date = rs.getDate("klant_sinds");
-            String tel = rs.getString("tel");
-            Zwembad zwembad = new Zwembad(id, naam, adres, postcode, gemeente, date, tel);
-            if (zwembad.equals(zwb)) {
-                return zwembad.getId();
+            int postcode = rs.getInt("postcode");
+            Adres adres = new Adres(straat, huisNummer, gemeente, postcode);
+            if (a.equals(adres)) {
+                return true;
             }
         }
-        return -1;
+        return false;
     }
 }

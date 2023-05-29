@@ -12,6 +12,8 @@ public class Adres {
     private String gemeente;
     private int postcode;
 
+    private int id;
+
     public Adres(String straat, String huisnummer, String gemeente, int postcode) {
         if (straat == null) throw new IllegalArgumentException("Vul een straat in.");
         if (huisnummer == null) throw new IllegalArgumentException("Vul een huisnummer in.");
@@ -21,6 +23,22 @@ public class Adres {
         this.straat = straat;
         this.huisnummer = huisnummer;
         this.gemeente = gemeente;
+    }
+
+    public Adres(String straat, String huisnummer, String gemeente, int postcode, int id) {
+        this.straat = straat;
+        this.huisnummer = huisnummer;
+        this.gemeente = gemeente;
+        this.postcode = postcode;
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getStraat() {

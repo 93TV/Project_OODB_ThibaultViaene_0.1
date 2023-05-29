@@ -13,6 +13,9 @@ import java.sql.SQLException;
 public class MainTest {
     public static void main(String[] args) throws SQLException {
         DataLaag dl = new DataLaag();
+
+
+
         for (Dvd dvd : dl.geefDvdLijst()) {
             System.out.println(dvd);
         }
