@@ -31,9 +31,9 @@ public class ZwembadGUI {
     private JPanel mainPanel;
     private JLabel labelErrorZwembad;
 
-    private void ComboVuller(){
+    private void ComboVuller() {
         for (Lengte lengte : Lengte.values()) {
-            comboBoxLengte.addItem(lengte.toString().replace("_",""));
+            comboBoxLengte.addItem(lengte.toString().replace("_", ""));
         }
         for (AantalBanen banen : AantalBanen.values()) {
             comboBoxAantalBanen.addItem(banen.toString().replace("_", ""));
@@ -46,8 +46,9 @@ public class ZwembadGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                Zwembad zwembad = new Zwembad(new Adres(textFieldStraat.getText(), textFieldHuisnr.getText(), textFieldGemeente.getText(), Integer.parseInt(textFieldPostcode.getText())), textFieldNaam.getText(), Lengte.valueOf(comboBoxLengte.getSelectedItem().toString().replaceFirst("","_")), AantalBanen.valueOf(comboBoxAantalBanen.getSelectedItem().toString().replaceFirst("", "_")));
-                labelErrorZwembad.setText(zwembad.toString());
+                    Adres adres = new Adres(textFieldStraat.getText(), textFieldHuisnr.getText(), textFieldGemeente.getText(), Integer.parseInt(textFieldPostcode.getText()));
+                    Zwembad zwembad = new Zwembad(adres, textFieldNaam.getText(), Lengte.valueOf(comboBoxLengte.getSelectedItem().toString().replaceFirst("", "_")), AantalBanen.valueOf(comboBoxAantalBanen.getSelectedItem().toString().replaceFirst("", "_")));
+                    labelErrorZwembad.setText(zwembad.toString());
                 } catch (IllegalArgumentException ex) {
                     labelErrorZwembad.setText(ex.getMessage());
                 }
