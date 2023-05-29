@@ -11,6 +11,12 @@ import java.util.ArrayList;
 public class Zwemmer extends Persoon {
     private int finapunten;
     private ArrayList<Deelname> deelNames;
+    private ArrayList<Besttijd> bestTijden;
+
+    public Zwemmer(Adres adres, String voornaam, String achternaam, int geboorteJaar, Geslacht geslacht, String licentieNummer, String club, int finapunten) {
+        super(adres, voornaam, achternaam, geboorteJaar, geslacht, licentieNummer, club);
+        this.finapunten = finapunten;
+    }
 
     public Zwemmer(Adres adres, String voornaam, String achternaam, int geboorteJaar, Geslacht geslacht, String licentieNummer, String club, int finapunten, ArrayList<Deelname> deelNames) {
         super(adres, voornaam, achternaam, geboorteJaar, geslacht, licentieNummer, club);
@@ -18,9 +24,11 @@ public class Zwemmer extends Persoon {
         this.deelNames = deelNames;
     }
 
-    public Zwemmer(Adres adres, String voornaam, String achternaam, int geboorteJaar, Geslacht geslacht, String licentieNummer, String club, int finapunten) {
+    public Zwemmer(Adres adres, String voornaam, String achternaam, int geboorteJaar, Geslacht geslacht, String licentieNummer, String club, int finapunten, ArrayList<Deelname> deelNames, ArrayList<Besttijd> bestTijden) {
         super(adres, voornaam, achternaam, geboorteJaar, geslacht, licentieNummer, club);
         this.finapunten = finapunten;
+        this.deelNames = deelNames;
+        this.bestTijden = bestTijden;
     }
 
     public int getFinapunten() {
@@ -37,5 +45,13 @@ public class Zwemmer extends Persoon {
 
     public void setDeelNames(ArrayList<Deelname> deelNames) {
         this.deelNames = deelNames;
+    }
+
+    public ArrayList<Besttijd> getBestTijden() {
+        return bestTijden;
+    }
+
+    public void setBestTijden(ArrayList<Besttijd> bestTijden) {
+        this.bestTijden = bestTijden;
     }
 }

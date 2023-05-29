@@ -32,5 +32,4 @@ public class DataLayer {
             Logger.getLogger(DataLayer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
 }

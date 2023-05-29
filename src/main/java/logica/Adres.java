@@ -13,10 +13,14 @@ public class Adres {
     private int postcode;
 
     public Adres(String straat, String huisnummer, String gemeente, int postcode) {
+        if (straat == null) throw new IllegalArgumentException("Vul een straat in.");
+        if (huisnummer == null) throw new IllegalArgumentException("Vul een huisnummer in.");
+        if (gemeente == null) throw new IllegalArgumentException("Vul een gemeente in.");
+        if (postcode == 0) throw new IllegalArgumentException("Vul een Postcode in.");
+        this.postcode = postcode;
         this.straat = straat;
         this.huisnummer = huisnummer;
         this.gemeente = gemeente;
-        this.postcode = postcode;
     }
 
     public String getStraat() {

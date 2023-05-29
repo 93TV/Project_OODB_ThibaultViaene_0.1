@@ -12,4 +12,24 @@ public class Besttijd {
     private int programma;
     private Time besttijd;
 
+    public Besttijd(int programma, Time besttijd) {
+        this.programma = programma;
+        this.besttijd = besttijd;
+    }
+
+    public int getProgramma() {
+        return programma;
+    }
+
+    public void setProgramma(int programma) {
+        this.programma = programma;
+    }
+
+    public Time getBesttijd() {
+        return besttijd;
+    }
+
+    public void setBesttijd(Time besttijd) {
+        this.besttijd = besttijd;
+    }
 }
