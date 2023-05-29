@@ -15,6 +15,15 @@ public class Zwembad {
     private AantalBanen aantalBanen;
     private ArrayList<Wedstrijden> wedstrijden;
 
+    public Zwembad(Adres adres, String naam, Lengte lengte, AantalBanen aantalBanen) {
+        if (adres == null) throw new IllegalArgumentException("Vul een adres in.");
+        if (naam == null) throw new IllegalArgumentException("vul een naam in.");
+        this.naam = naam;
+        this.adres = adres;
+        this.lengte = lengte;
+        this.aantalBanen = aantalBanen;
+    }
+
     public Zwembad(Adres adres, String naam, Lengte lengte, AantalBanen aantalBanen, ArrayList<Wedstrijden> wedstrijden) {
         this.adres = adres;
         this.naam = naam;
