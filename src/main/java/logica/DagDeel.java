@@ -7,5 +7,5 @@ package logica;
  * @version 28/05/2023
  */
 public enum DagDeel {
-    VOORMIDDAG, NAMIDDAG
+    VOORMIDDAG, NAMIDDAG, AVOND
 }

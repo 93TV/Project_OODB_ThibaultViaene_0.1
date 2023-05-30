@@ -27,6 +27,11 @@ public class Zwembad {
         this.aantalBanen = aantalBanen;
     }
 
+    public Zwembad(int id, String naam) {
+        this.id = id;
+        this.naam = naam;
+    }
+
     public String getNaam() {
         return naam;
     }

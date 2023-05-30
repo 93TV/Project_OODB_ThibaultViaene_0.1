@@ -2,6 +2,7 @@ package logica;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * Project_OODB_ThibaultViaene_0.1 : Wedstrijden
@@ -9,7 +10,7 @@ import java.util.ArrayList;
  * @author viaen
  * @version 28/05/2023
  */
-public class Wedstrijden {
+public class Wedstrijd {
     private String naam;
     private Date datum;
     private TijdsRegistratie tijdRregistratie;
@@ -17,13 +18,22 @@ public class Wedstrijden {
     private ArrayList<Official> jury;
     private ArrayList<WedstrijdProgramma> wedstrijdProgramma;
 
-    public Wedstrijden(String naam, Date datum, TijdsRegistratie tijdRregistratie, DagDeel dagDeel, ArrayList<Official> jury, ArrayList<WedstrijdProgramma> wedstrijdProgramma) {
+    private int zwembadID;
+
+
+    public Wedstrijd(int zwembadID, String naam, Date datum, TijdsRegistratie tijdRregistratie, DagDeel dagDeel) {
+        this.zwembadID = zwembadID;
         this.naam = naam;
         this.datum = datum;
         this.tijdRregistratie = tijdRregistratie;
         this.dagDeel = dagDeel;
-        this.jury = jury;
-        this.wedstrijdProgramma = wedstrijdProgramma;
+    }
+
+    public Wedstrijd(String naam, Date datum, TijdsRegistratie tijdRregistratie, DagDeel dagDeel) {
+        this.naam = naam;
+        this.datum = datum;
+        this.tijdRregistratie = tijdRregistratie;
+        this.dagDeel = dagDeel;
     }
 
     public String getNaam() {
@@ -72,5 +82,18 @@ public class Wedstrijden {
 
     public void setWedstrijdProgramma(ArrayList<WedstrijdProgramma> wedstrijdProgramma) {
         this.wedstrijdProgramma = wedstrijdProgramma;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Wedstrijd wedstrijd = (Wedstrijd) o;
+        return Objects.equals(naam, wedstrijd.naam) && Objects.equals(datum, wedstrijd.datum) && tijdRregistratie == wedstrijd.tijdRregistratie && dagDeel == wedstrijd.dagDeel;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(naam, datum, tijdRregistratie, dagDeel, jury, wedstrijdProgramma);
     }
 }

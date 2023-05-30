@@ -45,13 +45,7 @@ public class ZwembadGUI {
         }
     }
 
-    private void zwembadLijstWeergave(ArrayList<Zwembad> zwembaden) {
-        String list = "";
-        for (Zwembad zwb : zwembaden) {
-            list += zwb + "\n";
-        }
-        textAreaZwembadOverzicht.setText(list);
-    }
+
 
     private Adres maakAdres() {
         if (textFieldStraat.getText().isEmpty()) throw new IllegalArgumentException("Vul een straat in.");
@@ -75,8 +69,16 @@ public class ZwembadGUI {
         return new Zwembad(maakAdres(), textFieldNaam.getText(), Lengte.valueOf(comboBoxLengte.getSelectedItem().toString().replaceFirst("", "_")), AantalBanen.valueOf(comboBoxAantalBanen.getSelectedItem().toString().replaceFirst("", "_")));
     }
 
-    public ZwembadGUI(JFrame surroundingFrame) {
+    private void vulTextField() throws SQLException {
+        DataLaag dl = new DataLaag();
+        for (Zwembad zwb : dl.geefZwembadenNaamEnId()){
+            textAreaZwembadOverzicht.append(zwb + "\n");
+        }
+    }
+
+    public ZwembadGUI(JFrame surroundingFrame) throws SQLException {
         ComboVuller();
+        vulTextField();
         buttonMaakZwembad.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -85,6 +87,7 @@ public class ZwembadGUI {
                     dl.insertAdres(maakAdres());
                     dl.insertZwembad(maakZwembad(), dl.checkAdres(maakAdres()));
                     labelErrorZwembad.setText("Zwembad aangemaakt!");
+                    vulTextField();
                 } catch (IllegalArgumentException ex) {
                     labelErrorZwembad.setText(ex.getMessage());
                 } catch (SQLException ex) {
@@ -108,7 +111,7 @@ public class ZwembadGUI {
 
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         JFrame frame = new JFrame("ZwembadGUI");
         frame.setContentPane(new ZwembadGUI(frame).mainPanelZwb);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

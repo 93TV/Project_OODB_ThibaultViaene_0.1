@@ -1,6 +1,7 @@
 package presentatie;
 
 import javax.swing.*;
+import java.sql.SQLException;
 
 /**
  * Project_OODB_ThibaultViaene_0.1 : ZwemwedstrijdenGUI
@@ -17,7 +18,11 @@ public class mainGUI {
     public mainGUI(JFrame surroundingFrame) {
         buttonZwembadAanmaken.addActionListener(e -> {
             JFrame frame = new JFrame("ZwembadGUI");
-            frame.setContentPane(new ZwembadGUI(frame).mainPanelZwb);
+            try {
+                frame.setContentPane(new ZwembadGUI(frame).mainPanelZwb);
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setTitle("Zwembad aanmaken");
             frame.pack();
@@ -27,7 +32,13 @@ public class mainGUI {
             surroundingFrame.dispose();
         });
         buttonWedstrijdAanmaken.addActionListener(e -> {
-
+            JFrame frame = new JFrame("WedstrijdGUI");
+            frame.setContentPane(new WedstrijdGUI(frame).mainPanelWedstrijd);
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setTitle("Wedstrijd Aanmaken");
+            frame.pack();
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
 
             surroundingFrame.dispose();
         });
