@@ -33,7 +33,11 @@ public class mainGUI {
         });
         buttonWedstrijdAanmaken.addActionListener(e -> {
             JFrame frame = new JFrame("WedstrijdGUI");
-            frame.setContentPane(new WedstrijdGUI(frame).mainPanelWedstrijd);
+            try {
+                frame.setContentPane(new WedstrijdGUI(frame).mainPanelWedstrijd);
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setTitle("Wedstrijd Aanmaken");
             frame.pack();

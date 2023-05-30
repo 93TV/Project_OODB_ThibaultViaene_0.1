@@ -7,6 +7,7 @@ import logica.Lengte;
 import logica.Zwembad;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
@@ -83,17 +84,19 @@ public class ZwembadGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
+                    textAreaZwembadOverzicht.setText("");
                     DataLaag dl = new DataLaag();
                     dl.insertAdres(maakAdres());
                     dl.insertZwembad(maakZwembad(), dl.checkAdres(maakAdres()));
+                    labelErrorZwembad.setForeground(Color.GREEN);
                     labelErrorZwembad.setText("Zwembad aangemaakt!");
                     vulTextField();
                 } catch (IllegalArgumentException ex) {
+                    labelErrorZwembad.setForeground(Color.RED);
                     labelErrorZwembad.setText(ex.getMessage());
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
-
             }
         });
             buttonTerug.addActionListener(e -> {

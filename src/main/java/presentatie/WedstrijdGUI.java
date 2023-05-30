@@ -4,8 +4,11 @@ import data.DataLaag;
 import logica.DagDeel;
 import logica.TijdsRegistratie;
 import logica.Wedstrijd;
+import logica.Zwembad;
 
 import javax.swing.*;
+import javax.xml.crypto.Data;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Date;
@@ -29,8 +32,11 @@ public class WedstrijdGUI {
     private JLabel labelDagTitel;
     private JComboBox comboBoxZwembaden;
 
-    private void comboVuller(){
-
+    private void comboVuller() throws SQLException {
+        DataLaag dl = new DataLaag();
+        for (Zwembad zwb : dl.geefZwembadenNaamEnId()){
+            comboBoxZwembaden.addItem(zwb);
+        }
         for (TijdsRegistratie tr : TijdsRegistratie.values()){
             comboBoxTijdregistratie.addItem(tr.toString());
         }
@@ -55,11 +61,14 @@ public class WedstrijdGUI {
         String jaar = comboBoxJaar.getSelectedItem().toString();
         String datum = jaar + "-" + maand + "-" + dag;
         Date sqlDatum = Date.valueOf(datum);
-        return new Wedstrijd(comboBoxZwembaden.getSelectedIndex(),textFieldNaamWedstrijd.getText(), sqlDatum, TijdsRegistratie.valueOf(comboBoxTijdregistratie.getSelectedItem().toString()), DagDeel.valueOf(comboBoxDagDeel.getSelectedItem().toString()));
+        Date sqlNow = new Date(System.currentTimeMillis());
+        if (sqlDatum.compareTo(sqlNow) < 0) throw new IllegalArgumentException("Gelieve een datum in de toekomst te kiezen");
+
+        return new Wedstrijd(comboBoxZwembaden.getSelectedIndex()+1,textFieldNaamWedstrijd.getText(), sqlDatum, TijdsRegistratie.valueOf(comboBoxTijdregistratie.getSelectedItem().toString()), DagDeel.valueOf(comboBoxDagDeel.getSelectedItem().toString()));
     }
 
 
-    public WedstrijdGUI(JFrame surroundingFrame) {
+    public WedstrijdGUI(JFrame surroundingFrame) throws SQLException {
         comboVuller();
 
         buttonTerug.addActionListener(e -> {
@@ -79,8 +88,10 @@ public class WedstrijdGUI {
                 try {
                     DataLaag dl = new DataLaag();
                     dl.insertWedstrijd(maakWedstrijd());
+                    labelErrorWedstrijd.setForeground(Color.green);
                     labelErrorWedstrijd.setText("Wedstrijd aangemaakt!");
                 } catch (IllegalArgumentException ex) {
+                    labelErrorWedstrijd.setForeground(Color.red);
                     labelErrorWedstrijd.setText(ex.getMessage());
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
@@ -90,7 +101,7 @@ public class WedstrijdGUI {
         });
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         JFrame frame = new JFrame("WedstrijdGUI");
         frame.setContentPane(new WedstrijdGUI(frame).mainPanelWedstrijd);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -128,11 +128,12 @@ public class DataLaag {
         PreparedStatement stmt = null;
         try {
             if (checkWedstrijd(wedstrijd)) {
-                stmt = this.con.prepareStatement("INSERT INTO wedstrijden (naam, datum, tijdsregistratie, dagdeel) VALUES (?, ?, ?, ?)");
-                stmt.setString(1, wedstrijd.getNaam());
-                stmt.setDate(2, wedstrijd.getDatum());
-                stmt.setString(3, wedstrijd.getTijdRregistratie().toString().toUpperCase());
-                stmt.setString(4, wedstrijd.getDagDeel().toString().toUpperCase());
+                stmt = this.con.prepareStatement("INSERT INTO wedstrijden (zwembad_id, naam, datum, tijdsregistratie, dagdeel) VALUES (?, ?, ?, ?, ?)");
+                stmt.setInt(1,wedstrijd.getZwembadID());
+                stmt.setString(2, wedstrijd.getNaam());
+                stmt.setDate(3, wedstrijd.getDatum());
+                stmt.setString(4, wedstrijd.getTijdRregistratie().toString().toUpperCase());
+                stmt.setString(5, wedstrijd.getDagDeel().toString().toUpperCase());
                 stmt.executeUpdate();
             } else {
                 throw new IllegalArgumentException("Wedstrijd met exact deze gegevens bestaat al!");

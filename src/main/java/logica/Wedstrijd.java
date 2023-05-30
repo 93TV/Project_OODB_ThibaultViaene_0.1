@@ -36,6 +36,14 @@ public class Wedstrijd {
         this.dagDeel = dagDeel;
     }
 
+    public int getZwembadID() {
+        return zwembadID;
+    }
+
+    public void setZwembadID(int zwembadID) {
+        this.zwembadID = zwembadID;
+    }
+
     public String getNaam() {
         return naam;
     }
