@@ -10,108 +10,33 @@ import java.util.Objects;
  * @version 28/05/2023
  */
 public class Zwembad {
+    private int id;
     private Adres adres;
     private String naam;
     private Lengte lengte;
     private AantalBanen aantalBanen;
-    private ArrayList<Wedstrijden> wedstrijden;
 
-    private int adresId;
-
-    private int id;
-
-    public Zwembad(Adres adres, String naam, Lengte lengte, AantalBanen aantalBanen, int id) {
-        if (adres == null) throw new IllegalArgumentException("Vul een adres in.");
-        if (naam == null) throw new IllegalArgumentException("vul een naam in.");
-        this.adres = adres;
+    public Zwembad(String naam) {
         this.naam = naam;
-        this.lengte = lengte;
-        this.aantalBanen = aantalBanen;
-        this.id = id;
     }
 
     public Zwembad(Adres adres, String naam, Lengte lengte, AantalBanen aantalBanen) {
-        if (adres == null) throw new IllegalArgumentException("Vul een adres in.");
-        if (naam == null) throw new IllegalArgumentException("vul een naam in.");
         this.naam = naam;
         this.adres = adres;
         this.lengte = lengte;
         this.aantalBanen = aantalBanen;
-    }
-
-    public Zwembad(Adres adres, String naam, Lengte lengte, AantalBanen aantalBanen, ArrayList<Wedstrijden> wedstrijden) {
-        if (adres == null) throw new IllegalArgumentException("Vul een adres in.");
-        if (naam == null) throw new IllegalArgumentException("vul een naam in.");
-        this.adres = adres;
-        this.naam = naam;
-        this.lengte = lengte;
-        this.aantalBanen = aantalBanen;
-        this.wedstrijden = wedstrijden;
-    }
-
-    public Zwembad(int id, int adresId, Lengte lengte,AantalBanen aantalBanen,String naam) {
-        if (naam == null) throw new IllegalArgumentException("vul een naam in.");
-        this.naam = naam;
-        this.lengte = lengte;
-        this.aantalBanen = aantalBanen;
-        this.adresId = adresId;
-        this.id = id;
-    }
-
-    public int getAdresId() {
-        return adresId;
-    }
-
-    public void setAdresId(int adresId) {
-        this.adresId = adresId;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public Adres getAdres() {
-        return adres;
-    }
-
-    public void setAdres(Adres adres) {
-        this.adres = adres;
     }
 
     public String getNaam() {
         return naam;
     }
 
-    public void setNaam(String naam) {
-        this.naam = naam;
-    }
-
     public Lengte getLengte() {
         return lengte;
     }
 
-    public void setLengte(Lengte lengte) {
-        this.lengte = lengte;
-    }
-
     public AantalBanen getAantalBanen() {
         return aantalBanen;
-    }
-
-    public void setAantalBanen(AantalBanen aantalBanen) {
-        this.aantalBanen = aantalBanen;
-    }
-
-    public ArrayList<Wedstrijden> getWedstrijden() {
-        return wedstrijden;
-    }
-
-    public void setWedstrijden(ArrayList<Wedstrijden> wedstrijden) {
-        this.wedstrijden = wedstrijden;
     }
 
     @Override

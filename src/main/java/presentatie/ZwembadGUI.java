@@ -30,10 +30,11 @@ public class ZwembadGUI {
     private JLabel labelNaamTitel;
     private JLabel labelLengteTitel;
     private JLabel labelAantalBanenTitel;
-    private JPanel mainPanel;
+    public JPanel mainPanelZwb;
     private JLabel labelErrorZwembad;
     private JTextArea textAreaZwembadOverzicht;
     private JLabel labelZwembadenOverzicht;
+    private JButton buttonTerug;
 
     private void ComboVuller() {
         for (Lengte lengte : Lengte.values()) {
@@ -44,7 +45,7 @@ public class ZwembadGUI {
         }
     }
 
-    private void zwembadLijstWeergave (ArrayList<Zwembad> zwembaden) {
+    private void zwembadLijstWeergave(ArrayList<Zwembad> zwembaden) {
         String list = "";
         for (Zwembad zwb : zwembaden) {
             list += zwb + "\n";
@@ -52,42 +53,68 @@ public class ZwembadGUI {
         textAreaZwembadOverzicht.setText(list);
     }
 
-    private Adres maakAdres () {
+    private Adres maakAdres() {
+        if (textFieldStraat.getText().isEmpty()) throw new IllegalArgumentException("Vul een straat in.");
+        if (textFieldHuisnr.getText().isEmpty()) throw new IllegalArgumentException("Vul een huisnummer in.");
+        if (textFieldGemeente.getText().isEmpty()) throw new IllegalArgumentException("Vul een gemeente in.");
+        String postcodeText = textFieldPostcode.getText();
+        if (postcodeText.isEmpty()) {
+            throw new IllegalArgumentException("Vul een Postcode in.");
+        }
+        try {
+            int postcode = Integer.parseInt(postcodeText);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Postcode moet een geheel getal zijn.");
+        }
         return new Adres(textFieldStraat.getText(), textFieldHuisnr.getText(), textFieldGemeente.getText(), Integer.parseInt(textFieldPostcode.getText()));
     }
 
-    private Zwembad maakZwembad () {
+    private Zwembad maakZwembad() {
+        if (textFieldNaam.getText().isEmpty())
+            throw new IllegalArgumentException("Gelieve een zwembad naam in te geven");
         return new Zwembad(maakAdres(), textFieldNaam.getText(), Lengte.valueOf(comboBoxLengte.getSelectedItem().toString().replaceFirst("", "_")), AantalBanen.valueOf(comboBoxAantalBanen.getSelectedItem().toString().replaceFirst("", "_")));
     }
-    public ZwembadGUI() {
+
+    public ZwembadGUI(JFrame surroundingFrame) {
         ComboVuller();
         buttonMaakZwembad.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
                     DataLaag dl = new DataLaag();
-                    dl.maakAdresAan(maakAdres());
-                    dl.maakZwembadAan(maakZwembad());
+                    dl.insertAdres(maakAdres());
+                    dl.insertZwembad(maakZwembad(), dl.checkAdres(maakAdres()));
                     labelErrorZwembad.setText("Zwembad aangemaakt!");
-                    ArrayList<Zwembad> zwembadenList = dl.geefZwembadenMetAdressen();
-                    zwembadLijstWeergave(zwembadenList);
                 } catch (IllegalArgumentException ex) {
                     labelErrorZwembad.setText(ex.getMessage());
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
 
-
             }
         });
+            buttonTerug.addActionListener(e -> {
+                JFrame frame = new JFrame("mainGUI");
+                frame.setContentPane(new mainGUI(frame).mainPanel);
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frame.setSize(200,200);
+                frame.pack();
+                frame.setLocationRelativeTo(null);
+                frame.setVisible(true);
+
+            surroundingFrame.dispose();
+        });
+
+
     }
 
     public static void main(String[] args) {
         JFrame frame = new JFrame("ZwembadGUI");
-        frame.setContentPane(new ZwembadGUI().mainPanel);
+        frame.setContentPane(new ZwembadGUI(frame).mainPanelZwb);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setTitle("Zwembad aanmaken");
         frame.pack();
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
 
