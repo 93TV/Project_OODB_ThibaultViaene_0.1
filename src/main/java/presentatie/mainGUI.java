@@ -1,8 +1,6 @@
 package presentatie;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * Project_OODB_ThibaultViaene_0.1 : ZwemwedstrijdenGUI
@@ -13,7 +11,7 @@ import java.awt.event.ActionListener;
 public class mainGUI {
     public JPanel mainPanel;
     private JButton buttonZwembadAanmaken;
-    private JButton button1;
+    private JButton buttonWedstrijdAanmaken;
     private JButton button2;
 
     public mainGUI(JFrame surroundingFrame) {
@@ -26,7 +24,12 @@ public class mainGUI {
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
 
-            surroundingFrame.dispose(); //frame van deze form verwijderen
+            surroundingFrame.dispose();
+        });
+        buttonWedstrijdAanmaken.addActionListener(e -> {
+
+
+            surroundingFrame.dispose();
         });
     }
 
