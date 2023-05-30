@@ -7,6 +7,7 @@ import logica.Lengte;
 import logica.Zwembad;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
@@ -44,7 +45,7 @@ public class ZwembadGUI {
         }
     }
 
-    private void zwembadLijstWeergave (ArrayList<Zwembad> zwembaden) {
+    private void zwembadLijstWeergave(ArrayList<Zwembad> zwembaden) {
         String list = "";
         for (Zwembad zwb : zwembaden) {
             list += zwb + "\n";
@@ -52,13 +53,29 @@ public class ZwembadGUI {
         textAreaZwembadOverzicht.setText(list);
     }
 
-    private Adres maakAdres () {
+    private Adres maakAdres() {
+        if (textFieldStraat.getText().isEmpty()) throw new IllegalArgumentException("Vul een straat in.");
+        if (textFieldHuisnr.getText().isEmpty()) throw new IllegalArgumentException("Vul een huisnummer in.");
+        if (textFieldGemeente.getText().isEmpty()) throw new IllegalArgumentException("Vul een gemeente in.");
+        String postcodeText = textFieldPostcode.getText();
+        if (postcodeText.isEmpty()) {
+            throw new IllegalArgumentException("Vul een Postcode in.");
+        }
+
+        try {
+            int postcode = Integer.parseInt(postcodeText);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Postcode moet een geheel getal zijn.");
+        }
         return new Adres(textFieldStraat.getText(), textFieldHuisnr.getText(), textFieldGemeente.getText(), Integer.parseInt(textFieldPostcode.getText()));
     }
 
-    private Zwembad maakZwembad () {
+    private Zwembad maakZwembad() {
+        if (textFieldNaam.getText().isEmpty())
+            throw new IllegalArgumentException("Gelieve een zwembad naam min te geven");
         return new Zwembad(maakAdres(), textFieldNaam.getText(), Lengte.valueOf(comboBoxLengte.getSelectedItem().toString().replaceFirst("", "_")), AantalBanen.valueOf(comboBoxAantalBanen.getSelectedItem().toString().replaceFirst("", "_")));
     }
+
     public ZwembadGUI() {
         ComboVuller();
         buttonMaakZwembad.addActionListener(new ActionListener() {
@@ -66,17 +83,14 @@ public class ZwembadGUI {
             public void actionPerformed(ActionEvent e) {
                 try {
                     DataLaag dl = new DataLaag();
-                    dl.maakAdresAan(maakAdres());
-                    dl.maakZwembadAan(maakZwembad());
+                    dl.insertAdres(maakAdres());
+                    dl.insertZwembad(maakZwembad(), dl.checkAdres(maakAdres()));
                     labelErrorZwembad.setText("Zwembad aangemaakt!");
-                    ArrayList<Zwembad> zwembadenList = dl.geefZwembadenMetAdressen();
-                    zwembadLijstWeergave(zwembadenList);
                 } catch (IllegalArgumentException ex) {
                     labelErrorZwembad.setText(ex.getMessage());
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
-
 
             }
         });

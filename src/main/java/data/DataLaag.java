@@ -39,22 +39,16 @@ public class DataLaag {
         }
     }
 
-    public List<Adres> geefAdressenLijst() throws SQLException {
-        Statement stmt = null;
-        List<Adres> adresList = null;
+    public void insertAdres(Adres adres) throws SQLException {
+       PreparedStatement stmt = null;
         try {
-            stmt = this.con.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
-            ResultSet rs = stmt.executeQuery("Select * FROM adressen");
-            adresList = new ArrayList<>();
-
-            while (rs.next()) {
-                int id = rs.getInt("id");
-                String straat = rs.getString("straat");
-                String huisnummer = rs.getString("huisnummer");
-                String gemeente = rs.getString("gemeente");
-                int postcode = rs.getInt("postcode");
-                Adres adres = new Adres(id, straat, huisnummer, gemeente, postcode);
-                adresList.add(adres);
+            if (checkAdres(adres) == -1) {
+                stmt = this.con.prepareStatement("INSERT INTO Adressen (straat, huisnummer, gemeente, postcode) VALUES (?, ?, ?, ?)");
+                stmt.setString(1, adres.getStraat());
+                stmt.setString(2, adres.getHuisnummer());
+                stmt.setString(3, adres.getGemeente());
+                stmt.setInt(4, adres.getPostcode());
+                stmt.executeUpdate();
             }
 
         } catch (SQLException ex) {
@@ -64,34 +58,9 @@ public class DataLaag {
                 stmt.close();
             }
         }
-        return adresList;
     }
 
-    public int maakAdresAan(Adres adres) throws SQLException {
-        Statement stmt = null;
-        try {
-            if (checkAdres(adres) != -1) {return checkAdres(adres);}
-            else {
-                stmt = con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-                ResultSet rs = stmt.executeQuery("Select * FROM adressen");
-                rs.moveToInsertRow();
-                rs.updateString("straat", adres.getStraat());
-                rs.updateString ("huisnummer", adres.getHuisnummer());
-                rs.updateInt("postcode", adres.getPostcode());
-                rs.updateString("gemeente", adres.getGemeente());
-                rs.insertRow();
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(DataLaag.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            if (stmt != null) {
-                stmt.close();
-            }
-        }
-        return 0;
-    }
-
-    private int checkAdres(Adres a) throws SQLException {
+    public int checkAdres(Adres adres) throws SQLException {
         Statement stmt = this.con.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
         ResultSet rs = stmt.executeQuery("Select * FROM adressen");
         while (rs.next()) {
@@ -100,43 +69,28 @@ public class DataLaag {
             String huisNummer = rs.getString("huisnummer");
             String gemeente = rs.getString("gemeente");
             int postcode = rs.getInt("postcode");
-            Adres adres = new Adres(id, straat, huisNummer, gemeente, postcode);
-            if (a.equals(adres)) {
-                return adres.getId();
+            Adres a = new Adres(id, straat, huisNummer, gemeente, postcode);
+            if (adres.equals(a)) {
+                return a.getId();
             }
         }
         return -1;
     }
 
-    private int geefAdres(int adresId) throws SQLException {
-        for (Adres adres : geefAdressenLijst()) {
-            if (adres.getId() == adresId) return adres.getId();
-        }
-        return 0;
-    }
-
-    private int geefAdresId(Adres adr) throws SQLException {
-        for (Adres adres : geefAdressenLijst()) {
-            if (adr.equals(adres)) return adres.getId();
-        }
-        return 0;
-    }
-
-    public int maakZwembadAan(Zwembad zwb) throws SQLException {
-        Statement stmt = null;
+    public void insertZwembad(Zwembad zwembad, int adresId) throws SQLException {
+      PreparedStatement stmt = null;
         try {
-            if (checkZwembad(zwb) != -1) {return checkZwembad(zwb);}
-            else {
-                stmt = con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-                ResultSet rs = stmt.executeQuery("SELECT * FROM zwembaden");
-                rs.moveToInsertRow();
-                rs.updateInt("adres_id", maakAdresAan(zwb.getAdres()));
-                rs.updateString ("naam", zwb.getNaam());
-                rs.updateString("lengte",zwb.getLengte().toString().replace("_", ""));
-                rs.updateInt("aantal_banen",Integer.parseInt(zwb.getAantalBanen().toString().replace("_", "")));
-                rs.insertRow();
-                return checkZwembad(zwb);
+            if (checkzwembad(zwembad)) {
+                stmt = this.con.prepareStatement("INSERT INTO Zwembaden (adres_id, lengte, aantal_banen, naam) VALUES (?, ?, ?, ?)");
+                stmt.setInt(1, adresId);
+                stmt.setString(2, zwembad.getLengte().toString().replace("_",""));
+                stmt.setString(3, zwembad.getAantalBanen().toString().replace("_", ""));
+                stmt.setString(4, zwembad.getNaam());
+                stmt.executeUpdate();
+            } else {
+                throw new IllegalArgumentException("Zwembad bestaat al!");
             }
+
         } catch (SQLException ex) {
             Logger.getLogger(DataLaag.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
@@ -144,44 +98,24 @@ public class DataLaag {
                 stmt.close();
             }
         }
-        return 0;
     }
-
-
-    private int checkZwembad(Zwembad zwb) throws SQLException {
+    private boolean checkzwembad(Zwembad zwembad) throws SQLException {
         Statement stmt = this.con.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
-        ResultSet rs = stmt.executeQuery("Select * FROM zwembaden");
+        ResultSet rs = stmt.executeQuery("Select * FROM Zwembaden");
         while (rs.next()) {
-            int id = rs.getInt("id");
-            int adresId = rs.getInt("adres_id");
-            int lengte = rs.getInt("lengte");
-            int aantalBanen = rs.getInt("aantal_banen");
             String naam = rs.getString("naam");
-            Zwembad zwembad = new Zwembad(id, geefAdres(adresId), lengteNaarEnum(lengte), aanntalBanenNaarEnum(aantalBanen), naam);
-            if (zwb.equals(zwembad)) {
-                return zwembad.getId();
+                        Zwembad zwb = new Zwembad(naam);
+            if (zwembad.equals(zwb)) {
+                return false;
             }
         }
-        return -1;
+        return true;
     }
 
-    public ArrayList<Zwembad> geefZwembadenMetAdressen() throws SQLException {
-        ArrayList<Zwembad> zwembaden = new ArrayList<>();
-        Statement stmt = this.con.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
-        ResultSet rs = stmt.executeQuery("SELECT zwembaden.id, lengte, aantal_banen, naam, adres_id, straat, huisnummer, gemeente, postcode  FROM zwembaden\n" +
-                "INNER JOIN adressen ON adressen.id = adres_id;");
-        while (rs.next()) {
-            int idZwembad = rs.getInt("id");
-            int lengte = rs.getInt("lengte");
-            int aantalBanen = rs.getInt("aantal_banen");
-            String naam = rs.getString("naam");
-            int idAdres = rs.getInt("adres_id");
-            String straat = rs.getString("straat");
-            String huisNummer = rs.getString("huisnummer");
-            String gemeente = rs.getString("gemeente");
-            int postcode = rs.getInt("postcode");
-            zwembaden.add(new Zwembad(new Adres(idAdres, straat, huisNummer, gemeente, postcode), naam, lengteNaarEnum(lengte), aanntalBanenNaarEnum(aantalBanen), idZwembad));
-           }
-        return zwembaden;
-    }
+
+
+
+
+
+
 }
