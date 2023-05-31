@@ -1,6 +1,7 @@
 package presentatie;
 
 import javax.swing.*;
+import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
 /**
@@ -9,13 +10,13 @@ import java.sql.SQLException;
  * @author viaen
  * @version 28/05/2023
  */
-public class mainGUI {
+public class MainGui {
     public JPanel mainPanel;
     private JButton buttonZwembadAanmaken;
     private JButton buttonWedstrijdAanmaken;
-    private JButton button2;
+    private JButton buttonJuryAanmaken;
 
-    public mainGUI(JFrame surroundingFrame) {
+    public MainGui(JFrame surroundingFrame) {
         buttonZwembadAanmaken.addActionListener(e -> {
             JFrame frame = new JFrame("ZwembadGUI");
             try {
@@ -46,6 +47,19 @@ public class mainGUI {
 
             surroundingFrame.dispose();
         });
+        buttonJuryAanmaken.addActionListener(e -> {
+            JFrame frame = new JFrame("JuryGUI");
+            try {
+                frame.setContentPane(new JuryGUI(frame).manPanelJury);
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setTitle("Jury Toevoegen");
+            frame.pack();
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
+        });
     }
 
     public JPanel getMainPanel() {
@@ -54,9 +68,9 @@ public class mainGUI {
 
     public static void main(String[] args) {
         JFrame frame = new JFrame("mainGUI");
-        frame.setContentPane(new mainGUI(frame).mainPanel);
+        frame.setContentPane(new MainGui(frame).mainPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(200,200);
+        frame.setTitle("Home");
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);

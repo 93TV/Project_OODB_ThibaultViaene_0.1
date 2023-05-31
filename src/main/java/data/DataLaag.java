@@ -115,13 +115,25 @@ public class DataLaag {
     public ArrayList<Zwembad> geefZwembadenNaamEnId() throws SQLException {
         ArrayList<Zwembad> zwembadenNaamEnId = new ArrayList<>();
         Statement stmt = this.con.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
-        ResultSet rs = stmt.executeQuery("Select id, naam FROM Zwembaden");
+        ResultSet rs = stmt.executeQuery("Select id, naam FROM zwembaden");
         while (rs.next()) {
             String naam = rs.getString("naam");
             int id = rs.getInt("id");
             zwembadenNaamEnId.add(new Zwembad(id, naam));
         }
         return zwembadenNaamEnId;
+    }
+
+    public ArrayList<Wedstrijd> geefWedstrijdNaamEnId() throws SQLException {
+        ArrayList<Wedstrijd> wedstrijdNaamEnId = new ArrayList<>();
+        Statement stmt = this.con.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+        ResultSet rs = stmt.executeQuery("Select id, naam FROM wedstrijden");
+        while (rs.next()) {
+            String naam = rs.getString("naam");
+            int id = rs.getInt("id");
+            wedstrijdNaamEnId.add(new Wedstrijd(id, naam));
+        }
+        return wedstrijdNaamEnId;
     }
 
     public void insertWedstrijd(Wedstrijd wedstrijd) throws SQLException {

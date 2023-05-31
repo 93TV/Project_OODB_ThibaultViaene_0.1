@@ -17,8 +17,9 @@ public class Wedstrijd {
     private DagDeel dagDeel;
     private ArrayList<Official> jury;
     private ArrayList<WedstrijdProgramma> wedstrijdProgramma;
-
     private int zwembadID;
+
+    private int id;
 
 
     public Wedstrijd(int zwembadID, String naam, Date datum, TijdsRegistratie tijdRregistratie, DagDeel dagDeel) {
@@ -34,6 +35,11 @@ public class Wedstrijd {
         this.datum = datum;
         this.tijdRregistratie = tijdRregistratie;
         this.dagDeel = dagDeel;
+    }
+
+    public Wedstrijd(int id, String naam) {
+        this.naam = naam;
+        this.id  = id;
     }
 
     public int getZwembadID() {
@@ -101,7 +107,7 @@ public class Wedstrijd {
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(naam, datum, tijdRregistratie, dagDeel, jury, wedstrijdProgramma);
+    public String toString() {
+        return "Wedstrijd " + id + " " + naam;
     }
 }

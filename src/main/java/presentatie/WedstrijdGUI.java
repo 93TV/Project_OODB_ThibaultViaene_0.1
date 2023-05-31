@@ -7,7 +7,6 @@ import logica.Wedstrijd;
 import logica.Zwembad;
 
 import javax.swing.*;
-import javax.xml.crypto.Data;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -73,9 +72,8 @@ public class WedstrijdGUI {
 
         buttonTerug.addActionListener(e -> {
             JFrame frame = new JFrame("mainGUI");
-            frame.setContentPane(new mainGUI(frame).mainPanel);
+            frame.setContentPane(new MainGui(frame).mainPanel);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setSize(200,200);
             frame.pack();
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);

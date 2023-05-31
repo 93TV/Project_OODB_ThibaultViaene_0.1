@@ -11,7 +11,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 public class ZwembadGUI {
     private JLabel labelAdresTitel;
@@ -101,7 +100,7 @@ public class ZwembadGUI {
         });
             buttonTerug.addActionListener(e -> {
                 JFrame frame = new JFrame("mainGUI");
-                frame.setContentPane(new mainGUI(frame).mainPanel);
+                frame.setContentPane(new MainGui(frame).mainPanel);
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.setSize(200,200);
                 frame.pack();
