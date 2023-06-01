@@ -68,7 +68,11 @@ public class MainGui {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JFrame frame = new JFrame("WedstrijdProgrammaGUI");
-                frame.setContentPane(new WedstrijdProgrammaGUI(frame).mainWedstrijdProgrammaPanel);
+                try {
+                    frame.setContentPane(new WedstrijdProgrammaGUI(frame).mainWedstrijdProgrammaPanel);
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.setTitle("Wedstrijdprogramma Toevoegen");
                 frame.pack();
