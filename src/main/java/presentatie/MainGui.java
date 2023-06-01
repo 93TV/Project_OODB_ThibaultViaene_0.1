@@ -1,6 +1,7 @@
 package presentatie;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
@@ -15,6 +16,7 @@ public class MainGui {
     private JButton buttonZwembadAanmaken;
     private JButton buttonWedstrijdAanmaken;
     private JButton buttonJuryAanmaken;
+    private JButton buttonProgrammaAanmaken;
 
     public MainGui(JFrame surroundingFrame) {
         buttonZwembadAanmaken.addActionListener(e -> {
@@ -59,6 +61,22 @@ public class MainGui {
             frame.pack();
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
+
+            surroundingFrame.dispose();
+        });
+        buttonProgrammaAanmaken.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame frame = new JFrame("WedstrijdProgrammaGUI");
+                frame.setContentPane(new WedstrijdProgrammaGUI(frame).mainWedstrijdProgrammaPanel);
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frame.setTitle("Wedstrijdprogramma Toevoegen");
+                frame.pack();
+                frame.setLocationRelativeTo(null);
+                frame.setVisible(true);
+
+                surroundingFrame.dispose();
+            }
         });
     }
 

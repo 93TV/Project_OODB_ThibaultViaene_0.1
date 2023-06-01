@@ -6,7 +6,6 @@ import logica.Official;
 import logica.Wedstrijd;
 
 import javax.swing.*;
-import javax.xml.crypto.Data;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
@@ -23,24 +22,21 @@ public class JuryGUI {
     private JButton verwijderButton;
     private JLabel labelJuryTitel;
     private JList listJury;
-    private JComboBox comboBoxStrijden;
-    private JTextField textFieldWedstrijd;
+    private JComboBox comboBoxWedstrijden;
     private JLabel labelErrorJury;
 
     private DefaultListModel<Official> juryListModel;
 
-    private void comboVuller() throws SQLException {
-        DataLaag dl = new DataLaag();
+    private void comboVuller(DataLaag dl) throws SQLException {
         for (Wedstrijd wed : dl.geefWedstrijdEnID()) {
-            comboBoxStrijden.addItem(wed.toString());
+            comboBoxWedstrijden.addItem(wed.toString());
         }
         for (Functie f : Functie.values()) {
             comboBoxFuncties.addItem(f);
         }
     }
 
-    private void geefJury(int wedId) throws SQLException {
-        DataLaag dl = new DataLaag();
+    private void geefJury(DataLaag dl, int wedId) throws SQLException {
         juryListModel.clear();
         for (Official o : dl.geefJuryPerWedstrijd(wedId)) {
             juryListModel.addElement(o);
@@ -53,7 +49,7 @@ public class JuryGUI {
 
     public JuryGUI(JFrame surroundingFrame) throws SQLException {
         DataLaag dl = new DataLaag();
-        comboVuller();
+        comboVuller(dl);
         juryListModel = new DefaultListModel<>();
         listJury.setModel(juryListModel);
 
@@ -69,10 +65,9 @@ public class JuryGUI {
             surroundingFrame.dispose();
         });
 
-        comboBoxStrijden.addActionListener(e -> {
+        comboBoxWedstrijden.addActionListener(e -> {
             try {
-                System.out.println(comboBoxStrijden.getSelectedIndex());
-                geefJury(comboBoxStrijden.getSelectedIndex() + 1);
+                geefJury(dl, comboBoxWedstrijden.getSelectedIndex() + 1);
             } catch (SQLException ex) {
                 throw new RuntimeException(ex);
             }
@@ -82,13 +77,12 @@ public class JuryGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    dl.deleteJury(maakOfficial(), Integer.parseInt(textFieldWedstrijd.getText()));
+                    dl.deleteJury(maakOfficial(), comboBoxWedstrijden.getSelectedIndex() + 1);
                     labelErrorJury.setText("Jury lid verwijderd!");
-                    geefJury(Integer.parseInt(textFieldWedstrijd.getText()));
+                    geefJury(dl, comboBoxWedstrijden.getSelectedIndex() + 1);
                 } catch (IllegalArgumentException ex) {
                     labelErrorJury.setText(ex.getMessage());
-                }
-                catch (SQLException ex) {
+                } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
 
@@ -99,9 +93,9 @@ public class JuryGUI {
             public void actionPerformed(ActionEvent e) {
                 try {
                     try {
-                        dl.insertJury(maakOfficial(), Integer.parseInt(textFieldWedstrijd.getText()));
+                        dl.insertJury(maakOfficial(), comboBoxWedstrijden.getSelectedIndex() + 1);
                         labelErrorJury.setText("Jury toegevoegd!");
-                        geefJury(Integer.parseInt(textFieldWedstrijd.getText()));
+                        geefJury(dl, comboBoxWedstrijden.getSelectedIndex() + 1);
                     } catch (SQLException ex) {
                         throw new RuntimeException(ex);
                     }

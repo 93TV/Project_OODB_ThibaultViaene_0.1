@@ -69,27 +69,26 @@ public class ZwembadGUI {
         return new Zwembad(maakAdres(), textFieldNaam.getText(), Lengte.valueOf(comboBoxLengte.getSelectedItem().toString().replaceFirst("", "_")), AantalBanen.valueOf(comboBoxAantalBanen.getSelectedItem().toString().replaceFirst("", "_")));
     }
 
-    private void vulTextField() throws SQLException {
-        DataLaag dl = new DataLaag();
+    private void vulTextField(DataLaag dl) throws SQLException {
         for (Zwembad zwb : dl.geefZwembadenNaamEnId()){
             textAreaZwembadOverzicht.append(zwb + "\n");
         }
     }
 
     public ZwembadGUI(JFrame surroundingFrame) throws SQLException {
+        DataLaag dl = new DataLaag();
         ComboVuller();
-        vulTextField();
+        vulTextField(dl);
         buttonMaakZwembad.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
                     textAreaZwembadOverzicht.setText("");
-                    DataLaag dl = new DataLaag();
                     dl.insertAdres(maakAdres());
                     dl.insertZwembad(maakZwembad(), dl.checkAdres(maakAdres()));
                     labelErrorZwembad.setForeground(Color.GREEN);
                     labelErrorZwembad.setText("Zwembad aangemaakt!");
-                    vulTextField();
+                    vulTextField(dl);
                 } catch (IllegalArgumentException ex) {
                     labelErrorZwembad.setForeground(Color.RED);
                     labelErrorZwembad.setText(ex.getMessage());

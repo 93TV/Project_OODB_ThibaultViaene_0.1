@@ -222,7 +222,7 @@ public class DataLaag {
         PreparedStatement stmt = null;
         try {
             if (checkJury(official.getId(), wedstrijdId)) {
-                if (!juryCompleet(wedstrijdId)) {
+                if (!juryCompleet(wedstrijdId, official)) {
                     if (magOfficialFunctieUitvoeren(official, checkDiplomaOfficial(official))) {
                         stmt = this.con.prepareStatement("INSERT INTO jury (wedstrijd_id, official_id, functie) VALUES (?, ?, ?)");
                         stmt.setInt(1, wedstrijdId);
@@ -230,10 +230,10 @@ public class DataLaag {
                         stmt.setString(3, official.getFunctie());
                         stmt.executeUpdate();
                     } else {
-                        throw new IllegalArgumentException("Official heeft niet het juiste diploma");
+                        throw new IllegalArgumentException("Official heeft niet het juiste diploma!");
                     }
                 } else {
-                    throw new IllegalArgumentException("Jury is al compleet!");
+                    throw new IllegalArgumentException("Functie al ingevuld!");
                 }
             } else {
                 throw new IllegalArgumentException("Elke official mag maar 1 functie per wedstrijd uitoefenen!");
@@ -247,7 +247,7 @@ public class DataLaag {
         }
     }
 
-    private boolean juryCompleet(int wedId) throws SQLException {
+    private boolean juryCompleet(int wedId, Official official) throws SQLException {
         ArrayList<Official> jury = geefJuryPerWedstrijd(wedId);
         int maxTijdOpKeerPunt = aantalBanen(wedstrijdIdNaarZwembadId(wedId));
         int kampCount = 0;
@@ -265,9 +265,12 @@ public class DataLaag {
             if (o.getFunctie().equals(Functie.TIJDOPNEMER.toString())) tijdOpneemCount++;
             if (o.getFunctie().equals(Functie.KEERPUNTRECHTER.toString())) keerPuntCount++;
         }
-
-        if (kampCount == 1 || secreCount == 1 || starterCount == 1 || zwemRechtcount == 1 ) return true;
-        if (tijdOpneemCount == maxTijdOpKeerPunt || keerPuntCount == maxTijdOpKeerPunt) return true;
+        if (official.getFunctie().equals(Functie.KAMPRECHTER.toString()) && kampCount == 1) return true;
+        if (official.getFunctie().equals(Functie.JURYSECRETARIS.toString()) && secreCount == 1) return true;
+        if (official.getFunctie().equals(Functie.STARTER.toString()) && starterCount == 1) return true;
+        if (official.getFunctie().equals(Functie.ZWEMRECHTER.toString()) && zwemRechtcount == 1) return true;
+        if (official.getFunctie().equals(Functie.TIJDOPNEMER.toString()) && tijdOpneemCount == maxTijdOpKeerPunt) return true;
+        if (official.getFunctie().equals(Functie.KEERPUNTRECHTER.toString()) && keerPuntCount == maxTijdOpKeerPunt) return true;
         return false;
 
     }
