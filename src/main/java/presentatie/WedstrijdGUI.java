@@ -77,7 +77,6 @@ public class WedstrijdGUI {
             frame.pack();
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
-
             surroundingFrame.dispose();
         });
         ButtonWedstrijdAanmaken.addActionListener(new ActionListener() {

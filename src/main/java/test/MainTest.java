@@ -2,6 +2,8 @@ package test;
 
 import data.DataLaag;
 import logica.Adres;
+import logica.Wedstrijd;
+import logica.Zwembad;
 
 import java.sql.SQLException;
 
@@ -13,18 +15,16 @@ import java.sql.SQLException;
  */
 public class MainTest {
     public static void main(String[] args) throws SQLException {
-//        DataLaag dl = new DataLaag();
-//
-//        System.out.println("voor update: ");
-//        for (Adres adres : dl.geefAdressenLijst()) {
-//            System.out.println(adres);
-//        }
-//        System.out.println(dl.maakAdresAan(new Adres("testSTraat",  "4",  "Gent", 9000)));
-//        System.out.println("na update: ");
-//        for (Adres adres : dl.geefAdressenLijst()) {
-//        System.out.println(adres);
-//    }
+        DataLaag dl = new DataLaag();
+        for (Wedstrijd wed : dl.geefWedstrijdNaamEnId()){
+            System.out.println(wed);
 
+        }
+
+
+        for (Zwembad zwb : dl.geefZwembadenNaamEnId()){
+            System.out.println(zwb);
+        }
 
 
     }

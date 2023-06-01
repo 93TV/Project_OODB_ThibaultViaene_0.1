@@ -6,47 +6,41 @@ package logica;
  * @author viaen
  * @version 28/05/2023
  */
-public class Official extends Persoon {
+public class Official {
+    int id;
     private boolean camprechter;
     private boolean jurysecretaris;
     private boolean starter;
     private boolean tak;
+    private String functie;
 
-
-
-    public Official(Adres adres, String voornaam, String achternaam, int geboorteJaar, Geslacht geslacht, String licentieNummer, String club) {
-        super(adres, voornaam, achternaam, geboorteJaar, geslacht, licentieNummer, club);
+    public Official(int id, String functie) {
+        this.id = id;
+        this.functie = functie;
     }
 
-    public boolean isCamprechter() {
-        return camprechter;
-    }
-
-    public void setCamprechter(boolean camprechter) {
+    public Official(int id, boolean camprechter, boolean jurysecretaris, boolean starter, boolean tak) {
+        this.id = id;
         this.camprechter = camprechter;
-    }
-
-    public boolean isJurysecretaris() {
-        return jurysecretaris;
-    }
-
-    public void setJurysecretaris(boolean jurysecretaris) {
         this.jurysecretaris = jurysecretaris;
-    }
-
-    public boolean isStarter() {
-        return starter;
-    }
-
-    public void setStarter(boolean starter) {
         this.starter = starter;
-    }
-
-    public boolean isTak() {
-        return tak;
-    }
-
-    public void setTak(boolean tak) {
         this.tak = tak;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getFunctie() {
+        return functie;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "Official ID: " + id + " - Functie: " + functie;
     }
 }
