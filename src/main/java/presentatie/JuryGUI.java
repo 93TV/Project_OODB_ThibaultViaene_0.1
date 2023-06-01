@@ -32,7 +32,7 @@ public class JuryGUI {
     private void comboVuller() throws SQLException {
         DataLaag dl = new DataLaag();
         for (Wedstrijd wed : dl.geefWedstrijdEnID()) {
-            comboBoxStrijden.addItem(wed);
+            comboBoxStrijden.addItem(wed.toString());
         }
         for (Functie f : Functie.values()) {
             comboBoxFuncties.addItem(f);
