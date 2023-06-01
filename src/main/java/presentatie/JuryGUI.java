@@ -77,6 +77,7 @@ public class JuryGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
+                    if (textFieldOfficial.getText().isEmpty()) throw new IllegalArgumentException("Gelieve een id in te vullen!");
                     dl.deleteJury(maakOfficial(), comboBoxWedstrijden.getSelectedIndex() + 1);
                     labelErrorJury.setText("Jury lid verwijderd!");
                     geefJury(dl, comboBoxWedstrijden.getSelectedIndex() + 1);
@@ -93,6 +94,7 @@ public class JuryGUI {
             public void actionPerformed(ActionEvent e) {
                 try {
                     try {
+                        if (textFieldOfficial.getText().isEmpty()) throw new IllegalArgumentException("Gelieve een id in te vullen!");
                         dl.insertJury(maakOfficial(), comboBoxWedstrijden.getSelectedIndex() + 1);
                         labelErrorJury.setText("Jury toegevoegd!");
                         geefJury(dl, comboBoxWedstrijden.getSelectedIndex() + 1);

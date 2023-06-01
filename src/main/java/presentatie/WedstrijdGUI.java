@@ -61,6 +61,7 @@ public class WedstrijdGUI {
         String datum = jaar + "-" + maand + "-" + dag;
         Date sqlDatum = Date.valueOf(datum);
         Date sqlNow = new Date(System.currentTimeMillis());
+
         if (sqlDatum.compareTo(sqlNow) < 0)
             throw new IllegalArgumentException("Gelieve een datum in de toekomst te kiezen");
 

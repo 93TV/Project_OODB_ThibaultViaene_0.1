@@ -268,9 +268,9 @@ public class DataLaag {
         if (official.getFunctie().equals(Functie.KAMPRECHTER.toString()) && kampCount == 1) return true;
         if (official.getFunctie().equals(Functie.JURYSECRETARIS.toString()) && secreCount == 1) return true;
         if (official.getFunctie().equals(Functie.STARTER.toString()) && starterCount == 1) return true;
-        if (official.getFunctie().equals(Functie.ZWEMRECHTER.toString()) && zwemRechtcount == 1) return true;
-        if (official.getFunctie().equals(Functie.TIJDOPNEMER.toString()) && tijdOpneemCount == maxTijdOpKeerPunt) return true;
-        if (official.getFunctie().equals(Functie.KEERPUNTRECHTER.toString()) && keerPuntCount == maxTijdOpKeerPunt) return true;
+        if (official.getFunctie().equals(Functie.ZWEMRECHTER.toString()) && zwemRechtcount == 2) return true;
+        if (official.getFunctie().equals(Functie.TIJDOPNEMER.toString()) && tijdOpneemCount >= maxTijdOpKeerPunt) return true;
+        if (official.getFunctie().equals(Functie.KEERPUNTRECHTER.toString()) && keerPuntCount >= maxTijdOpKeerPunt) return true;
         return false;
 
     }
