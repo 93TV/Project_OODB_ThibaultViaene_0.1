@@ -1,6 +1,7 @@
 package presentatie;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
@@ -15,6 +16,11 @@ public class MainGui {
     private JButton buttonZwembadAanmaken;
     private JButton buttonWedstrijdAanmaken;
     private JButton buttonJuryAanmaken;
+    private JButton buttonProgrammaAanmaken;
+    private JButton buttonOverzicht;
+    private JButton buttonSessieAanmaken;
+    private JButton buttonZwemmersToevoegen;
+    private JButton buttonSimulatie;
 
     public MainGui(JFrame surroundingFrame) {
         buttonZwembadAanmaken.addActionListener(e -> {
@@ -56,6 +62,50 @@ public class MainGui {
             }
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setTitle("Jury Toevoegen");
+            frame.pack();
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
+
+            surroundingFrame.dispose();
+        });
+        buttonProgrammaAanmaken.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame frame = new JFrame("WedstrijdProgrammaGUI");
+                try {
+                    frame.setContentPane(new WedstrijdProgrammaGUI(frame).mainWedstrijdProgrammaPanel);
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frame.setTitle("Wedstrijdprogramma Toevoegen");
+                frame.pack();
+                frame.setLocationRelativeTo(null);
+                frame.setVisible(true);
+
+                surroundingFrame.dispose();
+            }
+        });
+        buttonSessieAanmaken.addActionListener(e -> {
+            JFrame frame = new JFrame("SerieAanmakenGUI");
+            try {
+                frame.setContentPane(new SerieAanmakenGUI(frame).mainPanelSerieAanmaken);
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.pack();
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
+        });
+        buttonZwemmersToevoegen.addActionListener(e -> {
+            JFrame frame = new JFrame("ZwemmersToevoegen");
+            try {
+                frame.setContentPane(new ZwemmersToevoegenGUI(frame).mainPanelZwemmersToevoegen);
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.pack();
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);

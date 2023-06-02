@@ -30,45 +30,49 @@ public class WedstrijdGUI {
     private JComboBox comboBoxJaar;
     private JLabel labelDagTitel;
     private JComboBox comboBoxZwembaden;
+    private JButton buttonNaarJury;
 
-    private void comboVuller() throws SQLException {
-        DataLaag dl = new DataLaag();
-        for (Zwembad zwb : dl.geefZwembadenNaamEnId()){
+    private void comboVuller(DataLaag dl) throws SQLException {
+        for (Zwembad zwb : dl.geefZwembadenNaamEnId()) {
             comboBoxZwembaden.addItem(zwb);
         }
-        for (TijdsRegistratie tr : TijdsRegistratie.values()){
+        for (TijdsRegistratie tr : TijdsRegistratie.values()) {
             comboBoxTijdregistratie.addItem(tr.toString());
         }
-        for (DagDeel dd : DagDeel.values()){
+        for (DagDeel dd : DagDeel.values()) {
             comboBoxDagDeel.addItem(dd.toString());
         }
-        for (int i = 1; i < 32; i++){
+        for (int i = 1; i < 32; i++) {
             comboBoxDag.addItem(i);
         }
-        for (int i = 1; i < 13; i++){
+        for (int i = 1; i < 13; i++) {
             comboBoxMaand.addItem(i);
         }
-        for (int i = 2023; i < 2050; i++){
+        for (int i = 2023; i < 2050; i++) {
             comboBoxJaar.addItem(i);
         }
     }
 
-    private Wedstrijd maakWedstrijd(){
-        if (textFieldNaamWedstrijd.getText().isEmpty()) throw new IllegalArgumentException("Gelieve een naam voor de wedstrijd in te geven!");
+    private Wedstrijd maakWedstrijd() {
+        if (textFieldNaamWedstrijd.getText().isEmpty())
+            throw new IllegalArgumentException("Gelieve een naam voor de wedstrijd in te geven!");
         String dag = comboBoxDag.getSelectedItem().toString();
         String maand = comboBoxMaand.getSelectedItem().toString();
         String jaar = comboBoxJaar.getSelectedItem().toString();
         String datum = jaar + "-" + maand + "-" + dag;
         Date sqlDatum = Date.valueOf(datum);
         Date sqlNow = new Date(System.currentTimeMillis());
-        if (sqlDatum.compareTo(sqlNow) < 0) throw new IllegalArgumentException("Gelieve een datum in de toekomst te kiezen");
 
-        return new Wedstrijd(comboBoxZwembaden.getSelectedIndex()+1,textFieldNaamWedstrijd.getText(), sqlDatum, TijdsRegistratie.valueOf(comboBoxTijdregistratie.getSelectedItem().toString()), DagDeel.valueOf(comboBoxDagDeel.getSelectedItem().toString()));
+        if (sqlDatum.compareTo(sqlNow) < 0)
+            throw new IllegalArgumentException("Gelieve een datum in de toekomst te kiezen");
+
+        return new Wedstrijd(comboBoxZwembaden.getSelectedIndex() + 1, textFieldNaamWedstrijd.getText(), sqlDatum, TijdsRegistratie.valueOf(comboBoxTijdregistratie.getSelectedItem().toString()), DagDeel.valueOf(comboBoxDagDeel.getSelectedItem().toString()));
     }
 
 
     public WedstrijdGUI(JFrame surroundingFrame) throws SQLException {
-        comboVuller();
+        DataLaag dl = new DataLaag();
+        comboVuller(dl);
 
         buttonTerug.addActionListener(e -> {
             JFrame frame = new JFrame("mainGUI");
@@ -83,7 +87,6 @@ public class WedstrijdGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    DataLaag dl = new DataLaag();
                     dl.insertWedstrijd(maakWedstrijd());
                     labelErrorWedstrijd.setForeground(Color.green);
                     labelErrorWedstrijd.setText("Wedstrijd aangemaakt!");
@@ -95,6 +98,21 @@ public class WedstrijdGUI {
                 }
 
             }
+        });
+        buttonNaarJury.addActionListener(e -> {
+            JFrame frame = new JFrame("JuryGUI");
+            try {
+                frame.setContentPane(new JuryGUI(frame).manPanelJury);
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setTitle("Jury Toevoegen");
+            frame.pack();
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
+
+            surroundingFrame.dispose();
         });
     }
 

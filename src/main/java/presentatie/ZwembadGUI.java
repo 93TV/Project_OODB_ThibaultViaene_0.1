@@ -35,6 +35,7 @@ public class ZwembadGUI {
     private JTextArea textAreaZwembadOverzicht;
     private JLabel labelZwembadenOverzicht;
     private JButton buttonTerug;
+    private JButton buttonNaarWedstrijd;
 
     private void ComboVuller() {
         for (Lengte lengte : Lengte.values()) {
@@ -69,27 +70,26 @@ public class ZwembadGUI {
         return new Zwembad(maakAdres(), textFieldNaam.getText(), Lengte.valueOf(comboBoxLengte.getSelectedItem().toString().replaceFirst("", "_")), AantalBanen.valueOf(comboBoxAantalBanen.getSelectedItem().toString().replaceFirst("", "_")));
     }
 
-    private void vulTextField() throws SQLException {
-        DataLaag dl = new DataLaag();
+    private void vulTextField(DataLaag dl) throws SQLException {
         for (Zwembad zwb : dl.geefZwembadenNaamEnId()){
             textAreaZwembadOverzicht.append(zwb + "\n");
         }
     }
 
     public ZwembadGUI(JFrame surroundingFrame) throws SQLException {
+        DataLaag dl = new DataLaag();
         ComboVuller();
-        vulTextField();
+        vulTextField(dl);
         buttonMaakZwembad.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
                     textAreaZwembadOverzicht.setText("");
-                    DataLaag dl = new DataLaag();
                     dl.insertAdres(maakAdres());
                     dl.insertZwembad(maakZwembad(), dl.checkAdres(maakAdres()));
                     labelErrorZwembad.setForeground(Color.GREEN);
                     labelErrorZwembad.setText("Zwembad aangemaakt!");
-                    vulTextField();
+                    vulTextField(dl);
                 } catch (IllegalArgumentException ex) {
                     labelErrorZwembad.setForeground(Color.RED);
                     labelErrorZwembad.setText(ex.getMessage());
@@ -102,7 +102,6 @@ public class ZwembadGUI {
                 JFrame frame = new JFrame("mainGUI");
                 frame.setContentPane(new MainGui(frame).mainPanel);
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame.setSize(200,200);
                 frame.pack();
                 frame.setLocationRelativeTo(null);
                 frame.setVisible(true);
@@ -111,6 +110,21 @@ public class ZwembadGUI {
         });
 
 
+        buttonNaarWedstrijd.addActionListener(e -> {
+            JFrame frame = new JFrame("WedstrijdGUI");
+            try {
+                frame.setContentPane(new WedstrijdGUI(frame).mainPanelWedstrijd);
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setTitle("Wedstrijd Aanmaken");
+            frame.pack();
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
+
+            surroundingFrame.dispose();
+        });
     }
 
     public static void main(String[] args) throws SQLException {
