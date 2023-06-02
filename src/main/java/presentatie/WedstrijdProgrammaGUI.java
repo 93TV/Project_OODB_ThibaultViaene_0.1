@@ -31,6 +31,7 @@ public class WedstrijdProgrammaGUI {
     private JComboBox comboBoxGeslacht;
     private JLabel labelGeslachtTitel;
     private JLabel labelErrorWedstrijdProgramma;
+    private JButton buttonVolgende;
 
     private void comboVuller(DataLaag dl) throws SQLException {
         for (Wedstrijd wed : dl.geefWedstrijdEnID()) {
@@ -93,6 +94,22 @@ public class WedstrijdProgrammaGUI {
                 } catch (IllegalArgumentException ex) {
                     labelErrorWedstrijdProgramma.setText(ex.getMessage());
                 }
+            }
+        });
+        buttonVolgende.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame frame = new JFrame("SerieAanmakenGUI");
+                try {
+                    frame.setContentPane(new SerieAanmakenGUI(frame).mainPanelSerieAanmaken);
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frame.pack();
+                frame.setLocationRelativeTo(null);
+                frame.setVisible(true);
+                surroundingFrame.dispose();
             }
         });
     }

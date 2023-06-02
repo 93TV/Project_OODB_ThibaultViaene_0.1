@@ -88,15 +88,15 @@
           <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Terug"/>
+          <text value="Home"/>
         </properties>
       </component>
       <component id="99b0a" class="javax.swing.JButton" binding="buttonZwemmersToevoegen">
         <constraints>
-          <grid row="4" column="2" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <grid row="4" column="2" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="1" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Zwemmers Toevoegen"/>
+          <text value="Volgende"/>
         </properties>
       </component>
       <component id="42cd2" class="javax.swing.JLabel" binding="labelErrorSerie">

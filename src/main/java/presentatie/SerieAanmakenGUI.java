@@ -5,7 +5,6 @@ import logica.Serie;
 import logica.WedstrijdProgramma;
 
 import javax.swing.*;
-import javax.xml.crypto.Data;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
@@ -61,6 +60,18 @@ public class SerieAanmakenGUI {
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
             surroundingFrame.dispose();
+        });
+        buttonZwemmersToevoegen.addActionListener(e -> {
+            JFrame frame = new JFrame("ZwemmersToevoegen");
+            try {
+                frame.setContentPane(new ZwemmersToevoegenGUI(frame).mainPanelZwemmersToevoegen);
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.pack();
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
         });
     }
 

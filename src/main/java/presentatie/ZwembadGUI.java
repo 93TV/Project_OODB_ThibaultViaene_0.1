@@ -102,7 +102,6 @@ public class ZwembadGUI {
                 JFrame frame = new JFrame("mainGUI");
                 frame.setContentPane(new MainGui(frame).mainPanel);
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame.setSize(200,200);
                 frame.pack();
                 frame.setLocationRelativeTo(null);
                 frame.setVisible(true);

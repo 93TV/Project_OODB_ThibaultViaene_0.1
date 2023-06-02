@@ -346,13 +346,13 @@ public class DataLaag {
     public void insertProgrammaWedstrijd(WedstrijdProgramma programma) throws SQLException {
         PreparedStatement stmt = null;
         try {
-                stmt = this.con.prepareStatement("INSERT INTO wedstrijdprogrammas(wedstrijd_id, programma_id, programmanummer, leeftijdscategorie, aanvangsuur) VALUES(?,?,?,?,?)");
-                stmt.setInt(1, programma.getWedstrijdId());
-                stmt.setInt(2, checkProgrammaId(programma));
-                stmt.setInt(3, maakProgrammaNummer(programma));
-                stmt.setString(4, Helper.leeftijdsCategorie(programma.getLeeftijdsCategorie()));
-                stmt.setTime(5, programma.getAanvangsUur());
-                stmt.executeUpdate();
+            stmt = this.con.prepareStatement("INSERT INTO wedstrijdprogrammas(wedstrijd_id, programma_id, programmanummer, leeftijdscategorie, aanvangsuur) VALUES(?,?,?,?,?)");
+            stmt.setInt(1, programma.getWedstrijdId());
+            stmt.setInt(2, checkProgrammaId(programma));
+            stmt.setInt(3, maakProgrammaNummer(programma));
+            stmt.setString(4, Helper.leeftijdsCategorie(programma.getLeeftijdsCategorie()));
+            stmt.setTime(5, programma.getAanvangsUur());
+            stmt.executeUpdate();
 //            } else throw new IllegalArgumentException("Programma in deze wedstrijd bestaat al op dit uur!");
         } catch (SQLException ex) {
             Logger.getLogger(DataLaag.class.getName()).log(Level.SEVERE, null, ex);
@@ -443,10 +443,88 @@ public class DataLaag {
     private int getReeksNummer(Serie s) throws SQLException {
         int reeksNummer = 1;
         Statement stmt = this.con.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
-        ResultSet rs = stmt.executeQuery("Select count(*) FROM series WHERE wedstrijdprogramma_id = '" + s.getWedstrijdProgrammaId() +"'");
+        ResultSet rs = stmt.executeQuery("Select count(*) FROM series WHERE wedstrijdprogramma_id = '" + s.getWedstrijdProgrammaId() + "'");
         if (rs.next()) {
             reeksNummer = rs.getInt("count(*)") + 1;
         }
         return reeksNummer;
+    }
+
+    public ArrayList<Serie> geefSeries() throws SQLException {
+        ArrayList<Serie> series = new ArrayList<>();
+        Statement stmt = this.con.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+        ResultSet rs = stmt.executeQuery("Select * FROM series");
+        while (rs.next()) {
+            int id = rs.getInt("id");
+            int wedprogId = rs.getInt("wedstrijdprogramma_id");
+            int reeksnummer = rs.getInt("reeksnummer");
+            Time aanvangUur = rs.getTime("aanvangsuur");
+            series.add(new Serie(id, reeksnummer, aanvangUur, wedprogId));
+        }
+        return series;
+    }
+
+    public int getZwemmerId(String naam, String voornaam) throws SQLException {
+        Statement stmt = this.con.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+        ResultSet rs = stmt.executeQuery("SELECT id, persoon_id, voornaam, naam FROM personen INNER JOIN zwemmers ON persoon_id = personen.id WHERE naam  = '" + naam + "' AND voornaam = '" + voornaam + "'");
+        if (rs.next()) {
+            return rs.getInt("id");
+        }
+        return -1;
+
+    }
+
+    public void insertDeelname(Deelname d) throws SQLException {
+        PreparedStatement stmt = null;
+        try {
+            if (!alInDeelname(d)) {
+                stmt = this.con.prepareStatement("INSERT INTO deelnames(zwemmer_id, serie_id, baan, forfait) VALUES(?,?,?,?)");
+                stmt.setInt(1, d.getZwemmerId());
+                stmt.setInt(2, d.getSerieId());
+                stmt.setInt(3, d.getBaan());
+                stmt.setBoolean(4, false);
+                stmt.executeUpdate();
+            } else throw new IllegalArgumentException("Zwemmer al in serie!");
+        } catch (SQLException ex) {
+            Logger.getLogger(DataLaag.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+        }
+    }
+
+    private boolean alInDeelname(Deelname d) throws SQLException {
+        Statement stmt = this.con.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+        ResultSet rs = stmt.executeQuery("Select * FROM deelnames WHERE zwemmer_id = '" + d.getZwemmerId() + "' AND serie_id = '" + d.getSerieId() + "'");
+        return rs.next();
+    }
+
+    public int getEersteVrijeBaan(int serieId) throws SQLException {
+        Statement stmt = this.con.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+        ResultSet rs = stmt.executeQuery("SELECT aantal_banen, count(*) FROM deelnames\n" +
+                "INNER JOIN series ON serie_id = series.id \n" +
+                "INNER JOIN wedstrijdprogrammas ON wedstrijdprogrammas.id = wedstrijdprogramma_id\n" +
+                "INNER JOIN wedstrijden ON wedstrijd_id = wedstrijden.id \n" +
+                "INNER JOIN zwembaden ON zwembaden.id = zwembad_id\n" +
+                "WHERE series.id = '" + serieId + "'");
+        if (rs.next()) {
+            if (rs.getInt("count(*)") < rs.getInt("aantal_banen"))
+            return rs.getInt("count(*)") + 1 ;
+        }
+        return -1;
+    }
+
+    public ArrayList<Deelname> getDeelnamesSerie(int serieId) throws SQLException {
+        ArrayList<Deelname> deelnames = new ArrayList<>();
+        Statement stmt = this.con.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+        ResultSet rs = stmt.executeQuery("Select * FROM deelnames WHERE serie_id = '" + serieId + "'");
+        while (rs.next()) {
+            int zwemmerId = rs.getInt("zwemmer_id");
+            int baan = rs.getInt("baan");
+            Time resultaat = rs.getTime("resultaat");
+            deelnames.add(new Deelname(zwemmerId, baan, resultaat, serieId));
+        }
+        return deelnames;
     }
 }

@@ -26,6 +26,13 @@ public class Serie {
         this.wedstrijdProgrammaId = wedstrijdProgrammaId;
     }
 
+    public Serie(int id, int reeksNummer, Time aanvangsUur, int wedstrijdProgrammaId) {
+        this.id = id;
+        this.reeksNummer = reeksNummer;
+        this.aanvangsUur = aanvangsUur;
+        this.wedstrijdProgrammaId = wedstrijdProgrammaId;
+    }
+
     public int getReeksNummer() {
         return reeksNummer;
     }
@@ -56,5 +63,10 @@ public class Serie {
 
     public void setWedstrijdProgrammaId(int wedstrijdProgrammaId) {
         this.wedstrijdProgrammaId = wedstrijdProgrammaId;
+    }
+
+    @Override
+    public String toString() {
+        return "Serie: " + id + " / Reeks: " + reeksNummer + " / Aanvang: " + aanvangsUur;
     }
 }

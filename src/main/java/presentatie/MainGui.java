@@ -98,6 +98,18 @@ public class MainGui {
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
         });
+        buttonZwemmersToevoegen.addActionListener(e -> {
+            JFrame frame = new JFrame("ZwemmersToevoegen");
+            try {
+                frame.setContentPane(new ZwemmersToevoegenGUI(frame).mainPanelZwemmersToevoegen);
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.pack();
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
+        });
     }
 
     public JPanel getMainPanel() {
