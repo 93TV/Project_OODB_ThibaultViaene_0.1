@@ -72,6 +72,7 @@ public class SerieAanmakenGUI {
             frame.pack();
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
+            surroundingFrame.dispose();
         });
     }
 
@@ -88,6 +89,7 @@ public class SerieAanmakenGUI {
         JFrame frame = new JFrame("SerieAanmakenGUI");
         frame.setContentPane(new SerieAanmakenGUI(frame).mainPanelSerieAanmaken);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setTitle("Serie Aanmaken");
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);

@@ -97,6 +97,7 @@ public class MainGui {
             frame.pack();
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
+            surroundingFrame.dispose();
         });
         buttonZwemmersToevoegen.addActionListener(e -> {
             JFrame frame = new JFrame("ZwemmersToevoegen");
@@ -109,6 +110,24 @@ public class MainGui {
             frame.pack();
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
+            surroundingFrame.dispose();
+        });
+        buttonOverzicht.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame frame = new JFrame("OverzichtGUI");
+                try {
+                    frame.setContentPane(new OverzichtGUI(frame).mainPanelOverzicht);
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frame.setTitle("Overzicht");
+                frame.pack();
+                frame.setLocationRelativeTo(null);
+                frame.setVisible(true);
+                surroundingFrame.dispose();
+            }
         });
     }
 

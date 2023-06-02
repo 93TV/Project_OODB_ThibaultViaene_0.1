@@ -422,6 +422,21 @@ public class DataLaag {
         return wedstrijdProgrammas;
     }
 
+    public ArrayList<WedstrijdProgramma> geefWedstrijdProgrammas(int wedId) throws SQLException {
+        ArrayList<WedstrijdProgramma> wedstrijdProgrammas = new ArrayList<>();
+        Statement stmt = this.con.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+        ResultSet rs = stmt.executeQuery("Select * FROM wedstrijdprogrammas WHERE wedstrijd_id = '" + wedId + "'");
+        while (rs.next()) {
+            int id = rs.getInt("id");
+            int progId = rs.getInt("programma_id");
+            int programmanummer = rs.getInt("programmanummer");
+            LeeftijdsCategorie lc = Helper.reverseLeeftijd(rs.getString("leeftijdscategorie"));
+            Time aanvangUur = rs.getTime("aanvangsuur");
+            wedstrijdProgrammas.add(new WedstrijdProgramma(id, wedId, progId, programmanummer, lc, aanvangUur));
+        }
+        return wedstrijdProgrammas;
+    }
+
     public void insertSessie(Serie s) throws SQLException {
         PreparedStatement stmt = null;
         try {
@@ -503,14 +518,16 @@ public class DataLaag {
     public int getEersteVrijeBaan(int serieId) throws SQLException {
         Statement stmt = this.con.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
         ResultSet rs = stmt.executeQuery("SELECT aantal_banen, count(*) FROM deelnames\n" +
-                "INNER JOIN series ON serie_id = series.id \n" +
-                "INNER JOIN wedstrijdprogrammas ON wedstrijdprogrammas.id = wedstrijdprogramma_id\n" +
-                "INNER JOIN wedstrijden ON wedstrijd_id = wedstrijden.id \n" +
-                "INNER JOIN zwembaden ON zwembaden.id = zwembad_id\n" +
+                "RIGHT JOIN series ON serie_id = series.id \n" +
+                "RIGHT JOIN wedstrijdprogrammas ON wedstrijdprogrammas.id = wedstrijdprogramma_id\n" +
+                "RIGHT JOIN wedstrijden ON wedstrijd_id = wedstrijden.id \n" +
+                "RIGHT JOIN zwembaden ON zwembaden.id = zwembad_id\n" +
                 "WHERE series.id = '" + serieId + "'");
         if (rs.next()) {
+            System.out.println("count: " + rs.getInt("count(*)"));
+            System.out.println("aantal_banen: " + rs.getInt("aantal_banen"));
             if (rs.getInt("count(*)") < rs.getInt("aantal_banen"))
-            return rs.getInt("count(*)") + 1 ;
+            return rs.getInt("count(*)") ;
         }
         return -1;
     }
