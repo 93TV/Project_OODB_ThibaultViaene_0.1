@@ -149,9 +149,9 @@ public class DataLaag {
         ArrayList<Wedstrijd> wedstrijdEnId = new ArrayList<>();
         Statement stmt = this.con.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
         ResultSet rs = stmt.executeQuery("SELECT zwembad_id FROM wedstrijden WHERE id = '" + wedId + "' ");
-        if (rs.next()) return  rs.getInt("zwembad_id");
+        if (rs.next()) return rs.getInt("zwembad_id");
         return -1;
-          }
+    }
 
 
     public ArrayList<Wedstrijd> geefWedstrijdNaamEnId() throws SQLException {
@@ -255,9 +255,9 @@ public class DataLaag {
         int starterCount = 0;
         int zwemRechtcount = 0;
         int tijdOpneemCount = 0;
-        int keerPuntCount =0;
+        int keerPuntCount = 0;
 
-        for (Official o : jury){
+        for (Official o : jury) {
             if (o.getFunctie().equals(Functie.KAMPRECHTER.toString())) kampCount++;
             if (o.getFunctie().equals(Functie.JURYSECRETARIS.toString())) secreCount++;
             if (o.getFunctie().equals(Functie.STARTER.toString())) starterCount++;
@@ -269,8 +269,10 @@ public class DataLaag {
         if (official.getFunctie().equals(Functie.JURYSECRETARIS.toString()) && secreCount == 1) return true;
         if (official.getFunctie().equals(Functie.STARTER.toString()) && starterCount == 1) return true;
         if (official.getFunctie().equals(Functie.ZWEMRECHTER.toString()) && zwemRechtcount == 2) return true;
-        if (official.getFunctie().equals(Functie.TIJDOPNEMER.toString()) && tijdOpneemCount >= maxTijdOpKeerPunt) return true;
-        if (official.getFunctie().equals(Functie.KEERPUNTRECHTER.toString()) && keerPuntCount >= maxTijdOpKeerPunt) return true;
+        if (official.getFunctie().equals(Functie.TIJDOPNEMER.toString()) && tijdOpneemCount >= maxTijdOpKeerPunt)
+            return true;
+        if (official.getFunctie().equals(Functie.KEERPUNTRECHTER.toString()) && keerPuntCount >= maxTijdOpKeerPunt)
+            return true;
         return false;
 
     }
@@ -320,5 +322,61 @@ public class DataLaag {
             }
         }
     }
+
+    public void insertProgramma(WedstrijdProgramma programma) throws SQLException {
+        PreparedStatement stmt = null;
+        try {
+            if (checkProgrammaId(programma) == -1) {
+                stmt = this.con.prepareStatement("INSERT INTO programmas(slag, afstand, aflossing, geslacht) VALUES(?,?,?,?)");
+                stmt.setString(1, programma.getSlag().toString());
+                stmt.setString(2, programma.getAfstand().toString().replace("_", ""));
+                stmt.setBoolean(3, programma.isAflossing());
+                stmt.setString(4, programma.getGeslacht().toString());
+                stmt.executeUpdate();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DataLaag.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+        }
+    }
+
+    public void insertProgrammaWedstrijd(WedstrijdProgramma programma) throws SQLException {
+        PreparedStatement stmt = null;
+        try {
+            stmt = this.con.prepareStatement("INSERT INTO wedstrijdprogrammas(wedstrijd_id, programma_id, leeftijdscategorie, aanvangsuur) VALUES(?,?,?,?)");
+            stmt.setInt(1, programma.getWedstrijdId());
+            stmt.setInt(2, checkProgrammaId(programma));
+            stmt.setString(3, Helper.leeftijdsCategorie(programma.getLeeftijdsCategorie()));
+            stmt.setTime(4, programma.getAanvangsUur());
+            stmt.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(DataLaag.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+        }
+    }
+
+    public int checkProgrammaId(WedstrijdProgramma programma) throws SQLException {
+        Statement stmt = this.con.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+        ResultSet rs = stmt.executeQuery("Select * FROM programmas");
+        while (rs.next()) {
+            int id = rs.getInt("id");
+            String slag = rs.getString("slag");
+            String afstand = rs.getString("afstand");
+            Boolean aflossing = rs.getBoolean("aflossing");
+            String geslacht = rs.getString("geslacht");
+            WedstrijdProgramma p = new WedstrijdProgramma(id, Slag.valueOf(slag), Afstand.valueOf(afstand.replaceFirst("","_")), aflossing, Geslacht.valueOf(geslacht));
+            if (programma.equals(p)) {
+                return p.getId();
+            }
+        }
+        return -1;
+    }
+
 
 }

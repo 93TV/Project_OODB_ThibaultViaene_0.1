@@ -7,5 +7,5 @@ package logica;
  * @version 28/05/2023
  */
 public enum LeeftijdsCategorie {
-    _9_10, _11_12, _13_14, _15_16, _17_18, _11plus
+    _9_10, _11_12, _13_14, _15_16, _17_18, _19plus
 }

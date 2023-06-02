@@ -17,6 +17,7 @@ public class MainGui {
     private JButton buttonWedstrijdAanmaken;
     private JButton buttonJuryAanmaken;
     private JButton buttonProgrammaAanmaken;
+    private JButton buttonOverzicht;
 
     public MainGui(JFrame surroundingFrame) {
         buttonZwembadAanmaken.addActionListener(e -> {

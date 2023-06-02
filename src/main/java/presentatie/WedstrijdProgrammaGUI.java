@@ -4,7 +4,10 @@ import data.DataLaag;
 import logica.*;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.sql.Time;
 
 public class WedstrijdProgrammaGUI {
 
@@ -20,13 +23,21 @@ public class WedstrijdProgrammaGUI {
     private JComboBox comboBoxUur;
     private JComboBox comboBoxMinuut;
     private JComboBox comboBoxSeconde;
+    private JLabel labelSlagTitel;
+    private JComboBox comboBoxSlag;
+    private JLabel labelAfstandTitel;
+    private JComboBox comboBoxAfstand;
+    private JCheckBox checkBoxAflossing;
+    private JComboBox comboBoxGeslacht;
+    private JLabel labelGeslachtTitel;
+    private JLabel labelErrorWedstrijdProgramma;
 
     private void comboVuller(DataLaag dl) throws SQLException {
         for (Wedstrijd wed : dl.geefWedstrijdEnID()) {
             comboBoxWedstrijd.addItem(wed.toString());
         }
         for (LeeftijdsCategorie lc : LeeftijdsCategorie.values()) {
-            comboBoxLeeftijdsCategorie.addItem(lc.toString().replace("_", ""));
+            comboBoxLeeftijdsCategorie.addItem(Helper.leeftijdsCategorie(lc));
         }
         for (int i = 1; i < 25; i++) {
             comboBoxUur.addItem(i);
@@ -37,7 +48,26 @@ public class WedstrijdProgrammaGUI {
         for (int i = 0; i < 61; i++) {
             comboBoxSeconde.addItem(i);
         }
+        for (Geslacht g : Geslacht.values()) {
+            comboBoxGeslacht.addItem(g.toString());
+        }
+        for (Afstand a : Afstand.values()) {
+            comboBoxAfstand.addItem(a.toString().replace("_", ""));
+        }
+        for (Slag sl : Slag.values()) {
+            comboBoxSlag.addItem(sl.toString());
+        }
     }
+
+    private WedstrijdProgramma maakProgramma() {
+        String timeString = comboBoxUur.getSelectedItem().toString() + ":" + comboBoxMinuut.getSelectedItem().toString() + ":" + comboBoxSeconde.getSelectedItem().toString();
+        Time time = java.sql.Time.valueOf(timeString);
+        return new WedstrijdProgramma(Helper.reverseLeeftijd(comboBoxLeeftijdsCategorie.getSelectedItem().toString()), time, comboBoxWedstrijd.getSelectedIndex() + 1, Slag.valueOf(comboBoxSlag.getSelectedItem().toString()),
+                Afstand.valueOf(comboBoxAfstand.getSelectedItem().toString().replaceFirst("", "_")), checkBoxAflossing.isSelected(), Geslacht.valueOf(comboBoxGeslacht.getSelectedItem().toString()));
+
+    }
+
+
 
     public WedstrijdProgrammaGUI(JFrame surroundingFrame) throws SQLException {
         DataLaag dl = new DataLaag();
@@ -46,11 +76,24 @@ public class WedstrijdProgrammaGUI {
             JFrame frame = new JFrame("mainGUI");
             frame.setContentPane(new MainGui(frame).mainPanel);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setSize(200, 200);
             frame.pack();
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
             surroundingFrame.dispose();
+        });
+        buttonProgrammaMaken.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    dl.insertProgramma(maakProgramma());
+                    dl.insertProgrammaWedstrijd(maakProgramma());
+                    labelErrorWedstrijdProgramma.setText("Wedstrijdprogramma aangemaakt!");
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                } catch (IllegalArgumentException ex) {
+                    labelErrorWedstrijdProgramma.setText(ex.getMessage());
+                }
+            }
         });
     }
 

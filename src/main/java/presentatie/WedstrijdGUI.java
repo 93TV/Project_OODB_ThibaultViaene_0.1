@@ -30,6 +30,7 @@ public class WedstrijdGUI {
     private JComboBox comboBoxJaar;
     private JLabel labelDagTitel;
     private JComboBox comboBoxZwembaden;
+    private JButton buttonNaarJury;
 
     private void comboVuller(DataLaag dl) throws SQLException {
         for (Zwembad zwb : dl.geefZwembadenNaamEnId()) {
@@ -97,6 +98,21 @@ public class WedstrijdGUI {
                 }
 
             }
+        });
+        buttonNaarJury.addActionListener(e -> {
+            JFrame frame = new JFrame("JuryGUI");
+            try {
+                frame.setContentPane(new JuryGUI(frame).manPanelJury);
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setTitle("Jury Toevoegen");
+            frame.pack();
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
+
+            surroundingFrame.dispose();
         });
     }
 

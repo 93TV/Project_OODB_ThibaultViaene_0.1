@@ -35,6 +35,7 @@ public class ZwembadGUI {
     private JTextArea textAreaZwembadOverzicht;
     private JLabel labelZwembadenOverzicht;
     private JButton buttonTerug;
+    private JButton buttonNaarWedstrijd;
 
     private void ComboVuller() {
         for (Lengte lengte : Lengte.values()) {
@@ -110,6 +111,21 @@ public class ZwembadGUI {
         });
 
 
+        buttonNaarWedstrijd.addActionListener(e -> {
+            JFrame frame = new JFrame("WedstrijdGUI");
+            try {
+                frame.setContentPane(new WedstrijdGUI(frame).mainPanelWedstrijd);
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setTitle("Wedstrijd Aanmaken");
+            frame.pack();
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
+
+            surroundingFrame.dispose();
+        });
     }
 
     public static void main(String[] args) throws SQLException {

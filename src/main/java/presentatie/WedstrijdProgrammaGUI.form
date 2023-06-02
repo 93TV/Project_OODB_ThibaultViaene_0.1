@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="presentatie.WedstrijdProgrammaGUI">
-  <grid id="27dc6" binding="mainWedstrijdProgrammaPanel" layout-manager="GridLayoutManager" row-count="4" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+  <grid id="27dc6" binding="mainWedstrijdProgrammaPanel" layout-manager="GridLayoutManager" row-count="9" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="10" left="10" bottom="10" right="10"/>
     <constraints>
       <xy x="20" y="20" width="500" height="400"/>
     </constraints>
     <properties>
-      <minimumSize width="350" height="350"/>
-      <preferredSize width="350" height="350"/>
+      <minimumSize width="500" height="400"/>
+      <preferredSize width="500" height="400"/>
     </properties>
     <border type="none"/>
     <children>
       <component id="3f279" class="javax.swing.JButton" binding="buttonTerug">
         <constraints>
-          <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <label value="Terug"/>
@@ -22,19 +22,136 @@
       </component>
       <component id="35085" class="javax.swing.JButton" binding="buttonProgrammaMaken">
         <constraints>
-          <grid row="3" column="1" row-span="1" col-span="3" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <grid row="7" column="1" row-span="1" col-span="3" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <label value="Programa Aanmaken"/>
-          <text value="Programa Aanmaken"/>
+          <label value="Programma Aanmaken"/>
+          <text value="Programma Aanmaken"/>
         </properties>
       </component>
-      <component id="9b834" class="javax.swing.JLabel" binding="labelWedstrijdTitel">
+      <component id="7ec4e" class="javax.swing.JLabel" binding="labelCategorieTitel">
         <constraints>
-          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="1" use-parent-layout="false"/>
+          <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="1" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Wedstrijd"/>
+          <text value="Leeftijds Categorie"/>
+        </properties>
+      </component>
+      <component id="e595f" class="javax.swing.JComboBox" binding="comboBoxLeeftijdsCategorie">
+        <constraints>
+          <grid row="3" column="1" row-span="1" col-span="3" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="8838e" class="javax.swing.JLabel" binding="labelSlagTitel">
+        <constraints>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="2" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Slag"/>
+        </properties>
+      </component>
+      <component id="7107a" class="javax.swing.JComboBox" binding="comboBoxSlag">
+        <constraints>
+          <grid row="1" column="1" row-span="1" col-span="3" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="9f199" class="javax.swing.JLabel" binding="labelAfstandTitel">
+        <constraints>
+          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="1" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Afstand"/>
+        </properties>
+      </component>
+      <component id="4c924" class="javax.swing.JComboBox" binding="comboBoxAfstand">
+        <constraints>
+          <grid row="2" column="1" row-span="1" col-span="3" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="655aa" class="javax.swing.JCheckBox" binding="checkBoxAflossing">
+        <constraints>
+          <grid row="6" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <label value="Aflossing"/>
+          <text value="Aflossing"/>
+        </properties>
+      </component>
+      <component id="71fa5" class="javax.swing.JComboBox" binding="comboBoxGeslacht">
+        <constraints>
+          <grid row="6" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="ab40" class="javax.swing.JLabel" binding="labelGeslachtTitel">
+        <constraints>
+          <grid row="6" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="1" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Geslacht"/>
+        </properties>
+      </component>
+      <component id="a10f3" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="10" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Uur"/>
+        </properties>
+      </component>
+      <component id="dad77" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="4" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="10" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Minuut"/>
+        </properties>
+      </component>
+      <component id="94f8c" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="4" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="10" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Seconde"/>
+        </properties>
+      </component>
+      <component id="8316" class="javax.swing.JComboBox" binding="comboBoxUur">
+        <constraints>
+          <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="e8177" class="javax.swing.JComboBox" binding="comboBoxMinuut">
+        <constraints>
+          <grid row="5" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="dd1f3" class="javax.swing.JComboBox" binding="comboBoxSeconde">
+        <constraints>
+          <grid row="5" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <model/>
+        </properties>
+      </component>
+      <component id="4811a" class="javax.swing.JLabel" binding="labelAanvangTitel">
+        <constraints>
+          <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Aanvangsuur"/>
+        </properties>
+      </component>
+      <component id="89728" class="javax.swing.JLabel" binding="labelErrorWedstrijdProgramma">
+        <constraints>
+          <grid row="8" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="1" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value=""/>
         </properties>
       </component>
       <component id="19fb6" class="javax.swing.JComboBox" binding="comboBoxWedstrijd">
@@ -43,46 +160,12 @@
         </constraints>
         <properties/>
       </component>
-      <component id="7ec4e" class="javax.swing.JLabel" binding="labelCategorieTitel">
+      <component id="9b834" class="javax.swing.JLabel" binding="labelWedstrijdTitel">
         <constraints>
-          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="1" use-parent-layout="false"/>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="1" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Leeftijds Categorie"/>
-        </properties>
-      </component>
-      <component id="e595f" class="javax.swing.JComboBox" binding="comboBoxLeeftijdsCategorie">
-        <constraints>
-          <grid row="1" column="1" row-span="1" col-span="3" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="1" use-parent-layout="false"/>
-        </constraints>
-        <properties/>
-      </component>
-      <component id="4811a" class="javax.swing.JLabel" binding="labelAanvangTitel">
-        <constraints>
-          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties>
-          <text value="Aanvangsuur"/>
-        </properties>
-      </component>
-      <component id="8316" class="javax.swing.JComboBox" binding="comboBoxUur">
-        <constraints>
-          <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties/>
-      </component>
-      <component id="e8177" class="javax.swing.JComboBox" binding="comboBoxMinuut">
-        <constraints>
-          <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties/>
-      </component>
-      <component id="dd1f3" class="javax.swing.JComboBox" binding="comboBoxSeconde">
-        <constraints>
-          <grid row="2" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties>
-          <model/>
+          <text value="Wedstrijd"/>
         </properties>
       </component>
     </children>
