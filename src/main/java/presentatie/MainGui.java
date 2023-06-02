@@ -18,6 +18,9 @@ public class MainGui {
     private JButton buttonJuryAanmaken;
     private JButton buttonProgrammaAanmaken;
     private JButton buttonOverzicht;
+    private JButton buttonSessieAanmaken;
+    private JButton buttonZwemmersToevoegen;
+    private JButton buttonSimulatie;
 
     public MainGui(JFrame surroundingFrame) {
         buttonZwembadAanmaken.addActionListener(e -> {
@@ -82,6 +85,18 @@ public class MainGui {
 
                 surroundingFrame.dispose();
             }
+        });
+        buttonSessieAanmaken.addActionListener(e -> {
+            JFrame frame = new JFrame("SerieAanmakenGUI");
+            try {
+                frame.setContentPane(new SerieAanmakenGUI(frame).mainPanelSerieAanmaken);
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.pack();
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
         });
     }
 

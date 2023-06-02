@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="presentatie.SerieAanmakenGUI">
+  <grid id="27dc6" binding="mainPanelSerieAanmaken" layout-manager="GridLayoutManager" row-count="5" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+    <margin top="10" left="10" bottom="10" right="10"/>
+    <constraints>
+      <xy x="20" y="20" width="500" height="500"/>
+    </constraints>
+    <properties>
+      <minimumSize width="500" height="300"/>
+      <preferredSize width="500" height="150"/>
+    </properties>
+    <border type="none"/>
+    <children>
+      <component id="5c328" class="javax.swing.JLabel" binding="labelWPTitel">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="1" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Wedstrijdprogramma"/>
+        </properties>
+      </component>
+      <component id="5efa5" class="javax.swing.JComboBox" binding="comboBoxWedProgram">
+        <constraints>
+          <grid row="0" column="1" row-span="1" col-span="3" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="d007" class="javax.swing.JComboBox" binding="comboBoxSeconden">
+        <constraints>
+          <grid row="2" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="4fe22" class="javax.swing.JComboBox" binding="comboBoxUur">
+        <constraints>
+          <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="f9872" class="javax.swing.JComboBox" binding="comboBoxMinuut">
+        <constraints>
+          <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="b7bd4" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="1" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Aanvanguur"/>
+        </properties>
+      </component>
+      <component id="16c9a" class="javax.swing.JButton" binding="buttonSerieAanmaken">
+        <constraints>
+          <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Serie Aanmaken"/>
+        </properties>
+      </component>
+      <component id="dcc34" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="10" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Uur"/>
+        </properties>
+      </component>
+      <component id="960b3" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="1" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="10" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Seconden"/>
+        </properties>
+      </component>
+      <component id="a6618" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="10" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Minuten"/>
+        </properties>
+      </component>
+      <component id="135b4" class="javax.swing.JButton" binding="buttonTerug">
+        <constraints>
+          <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Terug"/>
+        </properties>
+      </component>
+      <component id="99b0a" class="javax.swing.JButton" binding="buttonZwemmersToevoegen">
+        <constraints>
+          <grid row="4" column="2" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Zwemmers Toevoegen"/>
+        </properties>
+      </component>
+      <component id="42cd2" class="javax.swing.JLabel" binding="labelErrorSerie">
+        <constraints>
+          <grid row="3" column="0" row-span="1" col-span="4" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="2" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value=""/>
+        </properties>
+      </component>
+    </children>
+  </grid>
+</form>

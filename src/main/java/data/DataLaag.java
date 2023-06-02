@@ -346,12 +346,14 @@ public class DataLaag {
     public void insertProgrammaWedstrijd(WedstrijdProgramma programma) throws SQLException {
         PreparedStatement stmt = null;
         try {
-            stmt = this.con.prepareStatement("INSERT INTO wedstrijdprogrammas(wedstrijd_id, programma_id, leeftijdscategorie, aanvangsuur) VALUES(?,?,?,?)");
-            stmt.setInt(1, programma.getWedstrijdId());
-            stmt.setInt(2, checkProgrammaId(programma));
-            stmt.setString(3, Helper.leeftijdsCategorie(programma.getLeeftijdsCategorie()));
-            stmt.setTime(4, programma.getAanvangsUur());
-            stmt.executeUpdate();
+                stmt = this.con.prepareStatement("INSERT INTO wedstrijdprogrammas(wedstrijd_id, programma_id, programmanummer, leeftijdscategorie, aanvangsuur) VALUES(?,?,?,?,?)");
+                stmt.setInt(1, programma.getWedstrijdId());
+                stmt.setInt(2, checkProgrammaId(programma));
+                stmt.setInt(3, maakProgrammaNummer(programma));
+                stmt.setString(4, Helper.leeftijdsCategorie(programma.getLeeftijdsCategorie()));
+                stmt.setTime(5, programma.getAanvangsUur());
+                stmt.executeUpdate();
+//            } else throw new IllegalArgumentException("Programma in deze wedstrijd bestaat al op dit uur!");
         } catch (SQLException ex) {
             Logger.getLogger(DataLaag.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
@@ -359,6 +361,32 @@ public class DataLaag {
                 stmt.close();
             }
         }
+    }
+
+//    private boolean checkProgrammaWedstrijd(WedstrijdProgramma programma) throws SQLException {
+//            Statement stmt = this.con.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+//            ResultSet rs = stmt.executeQuery("Select * FROM wedstrijdprogrammas");
+//            while (rs.next()) {
+//                int wedId = rs.getInt("wedstrijd_id");
+//                int programma_id = rs.getInt("programma_id");
+//                LeeftijdsCategorie lc = Helper.reverseLeeftijd(rs.getString("leeftijdscategorie"));
+//                Time aanvangUur = rs.getTime("aanvangsuur");
+//                WedstrijdProgramma wp = new WedstrijdProgramma(lc, aanvangUur, wedId, programma_id);
+//                if (programma.equals(wp)) {
+//                    return false;
+//                }
+//            }
+//            return true;
+//        }
+
+    private int maakProgrammaNummer(WedstrijdProgramma programma) throws SQLException {
+        int programmaNummer = 1;
+        Statement stmt = this.con.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+        ResultSet rs = stmt.executeQuery("Select count(*) FROM wedstrijdprogrammas WHERE wedstrijd_id = '" + programma.getWedstrijdId() + "' AND programma_id = '" + checkProgrammaId(programma) + "'");
+        if (rs.next()) {
+            programmaNummer = rs.getInt("count(*)") + 1;
+        }
+        return programmaNummer;
     }
 
     public int checkProgrammaId(WedstrijdProgramma programma) throws SQLException {
@@ -370,7 +398,7 @@ public class DataLaag {
             String afstand = rs.getString("afstand");
             Boolean aflossing = rs.getBoolean("aflossing");
             String geslacht = rs.getString("geslacht");
-            WedstrijdProgramma p = new WedstrijdProgramma(id, Slag.valueOf(slag), Afstand.valueOf(afstand.replaceFirst("","_")), aflossing, Geslacht.valueOf(geslacht));
+            WedstrijdProgramma p = new WedstrijdProgramma(id, Slag.valueOf(slag), Afstand.valueOf(afstand.replaceFirst("", "_")), aflossing, Geslacht.valueOf(geslacht));
             if (programma.equals(p)) {
                 return p.getId();
             }
@@ -378,5 +406,47 @@ public class DataLaag {
         return -1;
     }
 
+    public ArrayList<WedstrijdProgramma> geefWedstrijdProgrammas() throws SQLException {
+        ArrayList<WedstrijdProgramma> wedstrijdProgrammas = new ArrayList<>();
+        Statement stmt = this.con.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+        ResultSet rs = stmt.executeQuery("Select * FROM wedstrijdprogrammas");
+        while (rs.next()) {
+            int id = rs.getInt("id");
+            int wedId = rs.getInt("wedstrijd_id");
+            int progId = rs.getInt("programma_id");
+            int programmanummer = rs.getInt("programmanummer");
+            LeeftijdsCategorie lc = Helper.reverseLeeftijd(rs.getString("leeftijdscategorie"));
+            Time aanvangUur = rs.getTime("aanvangsuur");
+            wedstrijdProgrammas.add(new WedstrijdProgramma(id, wedId, progId, programmanummer, lc, aanvangUur));
+        }
+        return wedstrijdProgrammas;
+    }
 
+    public void insertSessie(Serie s) throws SQLException {
+        PreparedStatement stmt = null;
+        try {
+            stmt = this.con.prepareStatement("INSERT INTO series(wedstrijdprogramma_id, reeksnummer,aanvangsuur) VALUES(?,?,?)");
+            stmt.setInt(1, s.getWedstrijdProgrammaId());
+            stmt.setInt(2, getReeksNummer(s));
+            stmt.setTime(3, s.getAanvangsUur());
+            stmt.executeUpdate();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(DataLaag.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+        }
+    }
+
+    private int getReeksNummer(Serie s) throws SQLException {
+        int reeksNummer = 1;
+        Statement stmt = this.con.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+        ResultSet rs = stmt.executeQuery("Select count(*) FROM series WHERE wedstrijdprogramma_id = '" + s.getWedstrijdProgrammaId() +"'");
+        if (rs.next()) {
+            reeksNummer = rs.getInt("count(*)") + 1;
+        }
+        return reeksNummer;
+    }
 }

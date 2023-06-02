@@ -16,6 +16,8 @@ public class WedstrijdProgramma {
     private LeeftijdsCategorie leeftijdsCategorie;
     private Time aanvangsUur;
     private int wedstrijdId;
+
+    private int programmaId;
     private Slag slag;
     private Afstand afstand;
     private boolean aflossing;
@@ -40,6 +42,20 @@ public class WedstrijdProgramma {
         this.geslacht = geslacht;
     }
 
+    public WedstrijdProgramma(LeeftijdsCategorie leeftijdsCategorie, Time aanvangsUur, int wedstrijdId, int programmaId) {
+        this.leeftijdsCategorie = leeftijdsCategorie;
+        this.aanvangsUur = aanvangsUur;
+        this.wedstrijdId = wedstrijdId;
+        this.programmaId = programmaId;
+    }
+
+    public WedstrijdProgramma(int id, int wedstrijdId, int programmaId, int programmaNummer, LeeftijdsCategorie lc, Time aanvangsUur){
+        this.id = id;
+        this.wedstrijdId = wedstrijdId;
+        this.programmaId = programmaId;
+        this.leeftijdsCategorie = lc;
+        this.aanvangsUur = aanvangsUur;
+    }
     public int getId() {
         return id;
     }
@@ -85,11 +101,15 @@ public class WedstrijdProgramma {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         WedstrijdProgramma that = (WedstrijdProgramma) o;
-        return aflossing == that.aflossing && slag == that.slag && afstand == that.afstand && geslacht == that.geslacht;
+        return slag == that.slag && afstand == that.afstand && aflossing == that.aflossing && geslacht == that.geslacht;
     }
+
+
 
     @Override
     public String toString() {
-        return "WedstrijdProgramma " + id + leeftijdsCategorie + slag + afstand + geslacht + "Aflossing: " + aflossing;
+        return "Programma: " + id + " : " + Helper.leeftijdsCategorie(leeftijdsCategorie) + " : " + aanvangsUur;
     }
+
+
 }
