@@ -95,4 +95,40 @@ public class MijnTekenPanel extends javax.swing.JPanel {
 
         tekenZwemmers(g);
     }
+
+    public boolean zwemmer1Stopped() {
+        return zwemmers.get(0).isGestopt();
+    }
+
+    public boolean zwemmer2Stopped() {
+        return zwemmers.get(1).isGestopt();
+    }
+    public boolean zwemmer3Stopped() {
+        return zwemmers.get(2).isGestopt();
+    }
+
+    public boolean zwemmer4Stopped() {
+        return zwemmers.get(3).isGestopt();
+    }
+    public boolean zwemmer5Stopped() {
+        return zwemmers.get(4).isGestopt();
+    }
+
+    public boolean zwemmer6Stopped() {
+        return zwemmers.get(5).isGestopt();
+    }
+    public boolean zwemmer7Stopped() {
+        return zwemmers.get(6).isGestopt();
+    }
+
+    public boolean zwemmer8Stopped() {
+        return zwemmers.get(7).isGestopt();
+    }
+    public boolean zwemmer9Stopped() {
+        return zwemmers.get(8).isGestopt();
+    }
+
+    public boolean zwemmer10Stopped() {
+        return zwemmers.get(9).isGestopt();
+    }
 }
