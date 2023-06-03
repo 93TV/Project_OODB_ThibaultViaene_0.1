@@ -9,12 +9,14 @@ import java.util.ArrayList;
 
 public class MijnTekenPanel extends javax.swing.JPanel {
     private int aantalBanen = 10;
-    private int lengte = 100;
-    private int aantalLengtes;
-    private int aantalZwemmers = 5;
+    private int afstandComp = 100;
+    private int lengteZwembad = 25;
+    private int aantalLengtes = 4;
+    private int aantalZwemmers = 10;
     private ArrayList<Zwemmer> zwemmers;
-    private int grootteZwemmer = 50;
+    private int grootteZwemmer = 100;
     private boolean initialized;
+    private int gestopteZwemmers = 0;
 
     public MijnTekenPanel() {
         initialized = false;
@@ -25,16 +27,19 @@ public class MijnTekenPanel extends javax.swing.JPanel {
         int height = this.getHeight();
         int baan = height / aantalBanen;
         for (int i = 0; i < aantalZwemmers; i++) {
-            zwemmers.add(new Zwemmer(grootteZwemmer, (baan * i) + grootteZwemmer , grootteZwemmer));
+            zwemmers.add(new Zwemmer(0, i*baan - grootteZwemmer/3 , grootteZwemmer));
         }
+    }
+
+    public boolean alleZwemmersFinished() {
+        return gestopteZwemmers == aantalZwemmers;
     }
 
     private void tekenZwemmers(Graphics g){
         g.setColor(Color.black);
         for (Zwemmer z : zwemmers) {
-
             g.drawImage(z.getImg(), z.getX(), z.getY(), z.getGrootte(), z.getGrootte(), null);
-//            g.fillOval(z.getX(), z.getY(), z.getGrootte(), z.getGrootte());
+
         }
     }
 
@@ -53,8 +58,17 @@ public class MijnTekenPanel extends javax.swing.JPanel {
 
     private void zwem() {
         for (Zwemmer z : zwemmers){
+
             if (z.getX() + grootteZwemmer > this.getWidth() || z.getX() < 0){
                 z.reverseRichting();
+                if (!z.isGestopt()){
+                    if (z.getAfgelegdeLengte() == aantalLengtes) {
+                        z.stop();
+                        z.setGestopt(true);
+                        gestopteZwemmers++;
+                    }
+                }
+
             }
             z.beweeg();
         }
@@ -72,7 +86,7 @@ public class MijnTekenPanel extends javax.swing.JPanel {
         int height = this.getHeight();
         int baan = height / aantalBanen;
 
-        g.setColor(Color.blue);
+        g.setColor(Color.CYAN);
         g.fillRect(0, 0, width, height);
         g.setColor(Color.RED);
         for (int i = 0; i < height; i = i + baan) {

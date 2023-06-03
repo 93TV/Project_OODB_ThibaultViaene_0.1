@@ -4,10 +4,10 @@ import data.DataLaag;
 import logica.Serie;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.time.Duration;
 
 public class SimulatieGUI {
     public JPanel mainPanelSimulatie;
@@ -29,9 +29,29 @@ public class SimulatieGUI {
     private JLabel labelTimer;
 
     private MijnTekenPanel mijnTekenPanel;
+    private Timer timer;
+    private Timer timer1;
+    private Timer timer2;
+    private Timer timer3;
+    private Timer timer4;
+    private Timer timer5;
+    private Timer timer6;
+    private Timer timer7;
+    private Timer timer8;
+    private Timer timer9;
+    private Timer timer10;
+
+    private void updateTimer(long startTime) {
+        Duration elapsedTime = Duration.ofSeconds(System.currentTimeMillis() / 1000 - startTime);
+        String formattedTime = String.format("%02d:%02d:%02d",
+                elapsedTime.toHoursPart(),
+                elapsedTime.toMinutesPart(),
+                elapsedTime.toSecondsPart());
+        labelTimer.setText(formattedTime);
+    }
 
     private void comboVuller(DataLaag dl) throws SQLException {
-        for (Serie s : dl.geefSeries()){
+        for (Serie s : dl.geefSeries()) {
             comboBoxSerie.addItem(s.toString());
         }
     }
@@ -40,6 +60,7 @@ public class SimulatieGUI {
     public SimulatieGUI(JFrame surroundingFrame) throws SQLException {
         DataLaag dl = new DataLaag();
         comboVuller(dl);
+
 
         buttonTerug.addActionListener(new ActionListener() {
             @Override
@@ -60,8 +81,28 @@ public class SimulatieGUI {
                 mijnTekenPanel.startSimulatie();
                 tekenPanel = mijnTekenPanel;
 
+                long startTime = System.currentTimeMillis() / 1000;
+
+                timer = new Timer(1000, new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        updateTimer(startTime);
+                        if (mijnTekenPanel.alleZwemmersFinished()) {
+                            timer.stop();
+                        }
+
+                    }
+                });
+                timer.setInitialDelay(0);
+                timer.start();
+
+
+
             }
         });
+
+
+
     }
 
     public static void main(String[] args) throws SQLException {
@@ -76,6 +117,7 @@ public class SimulatieGUI {
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+
 
     }
 

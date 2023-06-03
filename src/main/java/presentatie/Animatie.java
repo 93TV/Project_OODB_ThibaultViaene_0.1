@@ -51,5 +51,7 @@ public class Animatie extends JPanel {
         frame.setVisible(true);
 
         player.startAnimation(); // Start the animation
+
+
     }
 }
