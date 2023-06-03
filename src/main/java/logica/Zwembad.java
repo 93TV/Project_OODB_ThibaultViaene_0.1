@@ -54,6 +54,6 @@ public class Zwembad {
 
     @Override
     public String toString() {
-        return "Zwembad: " + id + " " + naam;
+        return naam;
     }
 }

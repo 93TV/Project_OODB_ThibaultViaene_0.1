@@ -129,6 +129,23 @@ public class MainGui {
                 surroundingFrame.dispose();
             }
         });
+        buttonSimulatie.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame frame = new JFrame("SimulatieGUI");
+                try {
+                    frame.setContentPane(new SimulatieGUI(frame).mainPanelSimulatie);
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frame.setTitle("Simulatie");
+                frame.pack();
+                frame.setLocationRelativeTo(null);
+                frame.setVisible(true);
+                surroundingFrame.dispose();
+            }
+        });
     }
 
     public JPanel getMainPanel() {

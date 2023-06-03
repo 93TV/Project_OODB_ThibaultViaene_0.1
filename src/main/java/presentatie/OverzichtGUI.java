@@ -25,6 +25,7 @@ public class OverzichtGUI {
     private DefaultListModel<Deelname> deelnameDefaultListModel;
     private DefaultListModel<Official> officialDefaultListModel;
     private DefaultListModel<Besttijd> besttijdDefaultListModel;
+
     private void comboVuller(DataLaag dl) throws SQLException {
         for (Wedstrijd wed : dl.geefWedstrijdNaamEnId()){
             comboBoxWedstrijden.addItem(wed.toString());
@@ -58,6 +59,7 @@ public class OverzichtGUI {
                     listProg.setModel(wedProgListModel);
                     geefJury(dl, comboBoxWedstrijden.getSelectedIndex() + 1);
                     listJury.setModel(officialDefaultListModel);
+                    labelSetZwembad.setText((dl.geefZwembadenNaamEnId(comboBoxWedstrijden.getSelectedIndex() +1)).toString());
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -105,6 +107,12 @@ public class OverzichtGUI {
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
+            }
+        });
+        buttonSimulatie.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
             }
         });
     }

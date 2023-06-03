@@ -22,7 +22,6 @@ public class WedstrijdProgramma {
     private Afstand afstand;
     private boolean aflossing;
     private Geslacht geslacht;
-    private ArrayList<Serie> series;
 
     public WedstrijdProgramma(int id, Slag slag, Afstand afstand, boolean aflossing, Geslacht geslacht) {
         this.id = id;

@@ -133,6 +133,19 @@ public class DataLaag {
         return zwembadenNaamEnId;
     }
 
+    public Zwembad geefZwembadenNaamEnId(int wedId) throws SQLException {
+        Statement stmt = this.con.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+        ResultSet rs = stmt.executeQuery("SELECT zwembaden.naam FROM zwembaden\n" +
+                "INNER JOIN wedstrijden ON zwembad_id = zwembaden.id\n" +
+                "WHERE wedstrijden.id ='" + wedId + "'");
+        while (rs.next()) {
+            String naam = rs.getString("naam");
+            return new Zwembad(naam);
+        }
+        return null;
+    }
+
+
     public ArrayList<Wedstrijd> geefWedstrijdEnID() throws SQLException {
         ArrayList<Wedstrijd> wedstrijdEnId = new ArrayList<>();
         Statement stmt = this.con.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
@@ -407,18 +420,18 @@ public class DataLaag {
     }
 
     public ArrayList<WedstrijdProgramma> geefWedstrijdProgrammas(int wedId) throws SQLException {
-        ArrayList<WedstrijdProgramma> wedstrijdProgrammas = new ArrayList<>();
-        Statement stmt = this.con.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
-        ResultSet rs = stmt.executeQuery("Select * FROM wedstrijdprogrammas WHERE wedstrijd_id = '" + wedId + "'");
-        while (rs.next()) {
-            int id = rs.getInt("id");
-            int progId = rs.getInt("programma_id");
-            int programmanummer = rs.getInt("programmanummer");
-            LeeftijdsCategorie lc = Helper.reverseLeeftijd(rs.getString("leeftijdscategorie"));
-            Time aanvangUur = rs.getTime("aanvangsuur");
-            wedstrijdProgrammas.add(new WedstrijdProgramma(id, wedId, progId, programmanummer, lc, aanvangUur));
-        }
-        return wedstrijdProgrammas;
+            ArrayList<WedstrijdProgramma> wedstrijdProgrammas = new ArrayList<>();
+            Statement stmt = this.con.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+            ResultSet rs = stmt.executeQuery("Select * FROM wedstrijdprogrammas WHERE wedstrijd_id = '" + wedId + "'");
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                int progId = rs.getInt("programma_id");
+                int programmanummer = rs.getInt("programmanummer");
+                LeeftijdsCategorie lc = Helper.reverseLeeftijd(rs.getString("leeftijdscategorie"));
+                Time aanvangUur = rs.getTime("aanvangsuur");
+                wedstrijdProgrammas.add(new WedstrijdProgramma(id, wedId, progId, programmanummer, lc, aanvangUur));
+            }
+            return wedstrijdProgrammas;
     }
 
     public void insertSessie(Serie s) throws SQLException {
@@ -523,6 +536,20 @@ public class DataLaag {
                 "WHERE series.id = '" + serieId + "'");
         if (rs.next()) {
             if (rs.getInt("count(*)") < rs.getInt("aantal_banen"))
+            return rs.getInt("count(*)") ;
+        }
+        return -1;
+    }
+
+    public int getAantalBanen(int serieId) throws SQLException {
+        Statement stmt = this.con.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+        ResultSet rs = stmt.executeQuery("SELECT aantal_banen, count(*) FROM deelnames\n" +
+                "RIGHT JOIN series ON serie_id = series.id \n" +
+                "RIGHT JOIN wedstrijdprogrammas ON wedstrijdprogrammas.id = wedstrijdprogramma_id\n" +
+                "RIGHT JOIN wedstrijden ON wedstrijd_id = wedstrijden.id \n" +
+                "RIGHT JOIN zwembaden ON zwembaden.id = zwembad_id\n" +
+                "WHERE series.id = '" + serieId + "'");
+        if (rs.next()) {
             return rs.getInt("count(*)") ;
         }
         return -1;
