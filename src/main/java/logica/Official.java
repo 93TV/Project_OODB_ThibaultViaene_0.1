@@ -8,23 +8,11 @@ package logica;
  */
 public class Official {
     int id;
-    private boolean camprechter;
-    private boolean jurysecretaris;
-    private boolean starter;
-    private boolean tak;
     private String functie;
 
     public Official(int id, String functie) {
         this.id = id;
         this.functie = functie;
-    }
-
-    public Official(int id, boolean camprechter, boolean jurysecretaris, boolean starter, boolean tak) {
-        this.id = id;
-        this.camprechter = camprechter;
-        this.jurysecretaris = jurysecretaris;
-        this.starter = starter;
-        this.tak = tak;
     }
 
     public int getId() {

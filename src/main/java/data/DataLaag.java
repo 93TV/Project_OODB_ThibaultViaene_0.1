@@ -363,22 +363,6 @@ public class DataLaag {
         }
     }
 
-//    private boolean checkProgrammaWedstrijd(WedstrijdProgramma programma) throws SQLException {
-//            Statement stmt = this.con.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
-//            ResultSet rs = stmt.executeQuery("Select * FROM wedstrijdprogrammas");
-//            while (rs.next()) {
-//                int wedId = rs.getInt("wedstrijd_id");
-//                int programma_id = rs.getInt("programma_id");
-//                LeeftijdsCategorie lc = Helper.reverseLeeftijd(rs.getString("leeftijdscategorie"));
-//                Time aanvangUur = rs.getTime("aanvangsuur");
-//                WedstrijdProgramma wp = new WedstrijdProgramma(lc, aanvangUur, wedId, programma_id);
-//                if (programma.equals(wp)) {
-//                    return false;
-//                }
-//            }
-//            return true;
-//        }
-
     private int maakProgrammaNummer(WedstrijdProgramma programma) throws SQLException {
         int programmaNummer = 1;
         Statement stmt = this.con.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
@@ -479,6 +463,20 @@ public class DataLaag {
         return series;
     }
 
+    public ArrayList<Serie> geefSeries(int wedId) throws SQLException {
+        ArrayList<Serie> series = new ArrayList<>();
+        Statement stmt = this.con.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+        ResultSet rs = stmt.executeQuery("Select * FROM series WHERE wedstrijdprogramma_id = '" + wedId + "'");
+        while (rs.next()) {
+            int id = rs.getInt("id");
+            int wedprogId = rs.getInt("wedstrijdprogramma_id");
+            int reeksnummer = rs.getInt("reeksnummer");
+            Time aanvangUur = rs.getTime("aanvangsuur");
+            series.add(new Serie(id, reeksnummer, aanvangUur, wedprogId));
+        }
+        return series;
+    }
+
     public int getZwemmerId(String naam, String voornaam) throws SQLException {
         Statement stmt = this.con.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
         ResultSet rs = stmt.executeQuery("SELECT id, persoon_id, voornaam, naam FROM personen INNER JOIN zwemmers ON persoon_id = personen.id WHERE naam  = '" + naam + "' AND voornaam = '" + voornaam + "'");
@@ -524,8 +522,6 @@ public class DataLaag {
                 "RIGHT JOIN zwembaden ON zwembaden.id = zwembad_id\n" +
                 "WHERE series.id = '" + serieId + "'");
         if (rs.next()) {
-            System.out.println("count: " + rs.getInt("count(*)"));
-            System.out.println("aantal_banen: " + rs.getInt("aantal_banen"));
             if (rs.getInt("count(*)") < rs.getInt("aantal_banen"))
             return rs.getInt("count(*)") ;
         }
@@ -543,5 +539,24 @@ public class DataLaag {
             deelnames.add(new Deelname(zwemmerId, baan, resultaat, serieId));
         }
         return deelnames;
+    }
+
+    public ArrayList<Besttijd> getZwemmersEnBesttijden(int progId, int serieId) throws SQLException {
+        ArrayList<Besttijd> zwemmersEnBesttijden = new ArrayList<>();
+        Statement stmt = this.con.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+        ResultSet rs = stmt.executeQuery("SELECT naam, voornaam, slag, afstand, besttijd FROM personen\n" +
+                "INNER JOIN deelnames ON personen.id = deelnames.zwemmer_id\n" +
+                "INNER JOIN besttijden ON besttijden.zwemmer_id = deelnames.zwemmer_id\n" +
+                "INNER JOIN programmas ON besttijden.programma_id = programmas.id\n" +
+                "WHERE  besttijden.programma_id = '" + progId + "' AND serie_id = '" + serieId + "'");
+        while (rs.next()){
+            String achterNaam = rs.getString("naam");
+            String voorNaam = rs.getString("voornaam");
+            Slag slag = Slag.valueOf(rs.getString("slag"));
+            Afstand afstand = Afstand.valueOf(rs.getString("afstand").replaceFirst("", "_"));
+            Time besttijd = rs.getTime("besttijd");
+            zwemmersEnBesttijden.add(new Besttijd(voorNaam, achterNaam, slag, afstand, besttijd));
+        }
+        return  zwemmersEnBesttijden;
     }
 }

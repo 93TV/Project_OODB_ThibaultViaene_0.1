@@ -42,13 +42,6 @@ public class WedstrijdProgramma {
         this.geslacht = geslacht;
     }
 
-    public WedstrijdProgramma(LeeftijdsCategorie leeftijdsCategorie, Time aanvangsUur, int wedstrijdId, int programmaId) {
-        this.leeftijdsCategorie = leeftijdsCategorie;
-        this.aanvangsUur = aanvangsUur;
-        this.wedstrijdId = wedstrijdId;
-        this.programmaId = programmaId;
-    }
-
     public WedstrijdProgramma(int id, int wedstrijdId, int programmaId, int programmaNummer, LeeftijdsCategorie lc, Time aanvangsUur){
         this.id = id;
         this.wedstrijdId = wedstrijdId;
@@ -58,10 +51,6 @@ public class WedstrijdProgramma {
     }
     public int getId() {
         return id;
-    }
-
-    public int getProgrammaNummer() {
-        return programmaNummer;
     }
 
     public LeeftijdsCategorie getLeeftijdsCategorie() {
@@ -92,10 +81,6 @@ public class WedstrijdProgramma {
         return geslacht;
     }
 
-    public ArrayList<Serie> getSeries() {
-        return series;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -103,7 +88,6 @@ public class WedstrijdProgramma {
         WedstrijdProgramma that = (WedstrijdProgramma) o;
         return slag == that.slag && afstand == that.afstand && aflossing == that.aflossing && geslacht == that.geslacht;
     }
-
 
 
     @Override

@@ -10,26 +10,22 @@ import java.sql.Time;
  */
 public class Besttijd {
     private int programma;
+    private String voorNaam;
+    private String achterNaam;
+    private Slag slag;
+    private Afstand afstand;
     private Time besttijd;
 
-    public Besttijd(int programma, Time besttijd) {
-        this.programma = programma;
+    public Besttijd(String voorNaam, String achterNaam, Slag slag, Afstand afstand, Time besttijd) {
+        this.voorNaam = voorNaam;
+        this.achterNaam = achterNaam;
+        this.slag = slag;
+        this.afstand = afstand;
         this.besttijd = besttijd;
     }
 
-    public int getProgramma() {
-        return programma;
-    }
-
-    public void setProgramma(int programma) {
-        this.programma = programma;
-    }
-
-    public Time getBesttijd() {
-        return besttijd;
-    }
-
-    public void setBesttijd(Time besttijd) {
-        this.besttijd = besttijd;
+    @Override
+    public String toString() {
+        return voorNaam + " " + achterNaam + " " + slag + " " + afstand.toString().replace("_","") + " PR: " + besttijd;
     }
 }

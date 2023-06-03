@@ -33,20 +33,8 @@ public class Serie {
         this.wedstrijdProgrammaId = wedstrijdProgrammaId;
     }
 
-    public int getReeksNummer() {
-        return reeksNummer;
-    }
-
-    public void setReeksNummer(int reeksNummer) {
-        this.reeksNummer = reeksNummer;
-    }
-
     public Time getAanvangsUur() {
         return aanvangsUur;
-    }
-
-    public void setAanvangsUur(Time aanvangsUur) {
-        this.aanvangsUur = aanvangsUur;
     }
 
     public int getId() {
