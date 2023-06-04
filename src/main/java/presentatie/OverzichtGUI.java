@@ -112,9 +112,33 @@ public class OverzichtGUI {
         buttonSimulatie.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                JFrame frame = new JFrame("SimulatieGUI");
+                SimulatieGUI simGUI = null;
+                try {
+                    simGUI = new SimulatieGUI(frame);
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+                try {
+                    frame.setContentPane(new SimulatieGUI(frame).mainPanelSimulatie);
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                try {
+                    simGUI.createUIComponents();
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+                frame.setTitle("Simulatie");
 
+                frame.pack();
+                frame.setLocationRelativeTo(null);
+                frame.setVisible(true);
+                surroundingFrame.dispose();
             }
         });
+
     }
 
     private void geefSeriesperWeds(DataLaag dl, WedstrijdProgramma wedProg) throws SQLException {

@@ -21,6 +21,7 @@ public class MainGui {
     private JButton buttonSessieAanmaken;
     private JButton buttonZwemmersToevoegen;
     private JButton buttonSimulatie;
+    private JButton buttonSurprise;
 
     public MainGui(JFrame surroundingFrame) {
         buttonZwembadAanmaken.addActionListener(e -> {
@@ -143,6 +144,26 @@ public class MainGui {
                 frame.pack();
                 frame.setLocationRelativeTo(null);
                 frame.setVisible(true);
+                surroundingFrame.dispose();
+            }
+        });
+        buttonSurprise.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame frame = new JFrame("Welcome To Paradise!");
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+                Animatie player = new Animatie();
+                frame.add(player);
+                frame.pack();
+                frame.setSize(500, 250);
+                frame.setLocationRelativeTo(null);
+                frame.setVisible(true);
+
+                player.startAnimation();
+
+
+
                 surroundingFrame.dispose();
             }
         });

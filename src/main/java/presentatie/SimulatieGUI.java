@@ -338,7 +338,7 @@ public class SimulatieGUI {
     }
 
 
-    private void createUIComponents() throws SQLException {
+    void createUIComponents() throws SQLException {
         mijnTekenPanel = new MijnTekenPanel();
         tekenPanel = mijnTekenPanel;
 

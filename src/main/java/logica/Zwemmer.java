@@ -12,20 +12,27 @@ public class Zwemmer {
         private int x;
         private int y;
         private int grootte;
-        private int snelheid;
+        private double snelheid;
         private int richting;
         private int afgelegdeLengte = 0;
         private Image img;
         private boolean gestopt = false;
 
 
+    public Zwemmer(int x, int y, int grootte, double snelheid) {
+        this.x = x;
+        this.y = y;
+        this.grootte = grootte;
+        this.snelheid = snelheid;
+        this.richting = 1;
+    }
 
-        public Zwemmer(int x, int y, int size) {
+    public Zwemmer(int x, int y, int size) {
             this.x = x;
             this.y = y;
             this.grootte = size;
             this.richting = 1;
-            this.snelheid = (int) (5 + Math.random() * 10);
+            this.snelheid =  Math.random() * 10;
             System.out.println(this.snelheid);
             try {
                 img = ImageIO.read(new File("src/main/java/recources/SwimA1.png"));
@@ -93,6 +100,12 @@ public class Zwemmer {
         img = mirroredImage;
     }
 
+    public int getRichting() {
+        return richting;
+    }
 
+    public void resetZwemmer() {
+
+    }
 }
 
