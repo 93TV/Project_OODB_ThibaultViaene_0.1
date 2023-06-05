@@ -9,14 +9,14 @@ import java.io.File;
 import java.io.IOException;
 
 public class Zwemmer {
-        private int x;
-        private int y;
-        private int grootte;
-        private double snelheid;
-        private int richting;
-        private int afgelegdeLengte = 0;
-        private Image img;
-        private boolean gestopt = false;
+    private int x;
+    private int y;
+    private int grootte;
+    private double snelheid;
+    private int richting;
+    private int afgelegdeLengte = 0;
+    private Image img;
+    private boolean gestopt = false;
 
 
     public Zwemmer(int x, int y, int grootte, double snelheid) {
@@ -24,22 +24,22 @@ public class Zwemmer {
         this.y = y;
         this.grootte = grootte;
         this.snelheid = snelheid;
-        this.richting = 1;
+        this.richting = 5;
     }
 
     public Zwemmer(int x, int y, int size) {
-            this.x = x;
-            this.y = y;
-            this.grootte = size;
-            this.richting = 1;
-            this.snelheid =  1 + Math.random() * 3;
-            System.out.println(this.snelheid);
-            try {
-                img = ImageIO.read(new File("src/main/java/recources/SwimA1.png"));
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+        this.x = x;
+        this.y = y;
+        this.grootte = size;
+        this.richting = 6;
+        this.snelheid = 0.3 + Math.random()*0.2;
+        System.out.println(this.snelheid);
+        try {
+            img = ImageIO.read(new File("src/main/java/recources/SwimA1.png"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
+    }
 
     public boolean isGestopt() {
         return gestopt;
@@ -54,42 +54,49 @@ public class Zwemmer {
     }
 
     public int getX() {
-            return x;
-        }
+        return x;
+    }
 
-        public int getY() {
-            return y;
-        }
+    public int getY() {
+        return y;
+    }
 
-        public int getGrootte() {
-            return grootte;
-        }
+    public int getGrootte() {
+        return grootte;
+    }
 
-        public void reverseRichting() {
-            if (snelheid != 0) {
-                richting *= -1;
-                afgelegdeLengte += 1;
-                mirrorImage();
-            } else {
-                try {
-                    img = ImageIO.read(new File("src/main/java/recources/SwimAFinish.png"));
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
+    public void reverseRichting() {
+        if (snelheid != 0) {
+            richting *= -1;
+            afgelegdeLengte += 1;
+            snelheid *= (0.8 + Math.random()*0.1);
+            mirrorImage();
+        } else {
+            try {
+                img = ImageIO.read(new File("src/main/java/recources/SwimAFinish.png"));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
         }
+    }
 
-        public void beweeg() {
-            x += richting * snelheid;
+    public void beweeg() {
+        try {
+            Thread.sleep(1); // Adjust the delay time as needed (in milliseconds)
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
+        x += richting * (snelheid * (0.8 + Math.random()*0.3));
+    }
 
-        public void stop() {
-            snelheid = 0;
-        }
+    public void stop() {
+        snelheid = 0;
+    }
 
     public Image getImg() {
-            return img;
+        return img;
     }
+
     private void mirrorImage() {
         int width = img.getWidth(null);
         int height = img.getHeight(null);
@@ -100,11 +107,7 @@ public class Zwemmer {
         img = mirroredImage;
     }
 
-    public int getRichting() {
-        return richting;
-    }
-
-    public void resetZwemmer() {
+      public void resetZwemmer() {
 
     }
 }
