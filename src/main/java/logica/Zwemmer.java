@@ -32,7 +32,7 @@ public class Zwemmer {
             this.y = y;
             this.grootte = size;
             this.richting = 1;
-            this.snelheid =  Math.random() * 10;
+            this.snelheid =  1 + Math.random() * 3;
             System.out.println(this.snelheid);
             try {
                 img = ImageIO.read(new File("src/main/java/recources/SwimA1.png"));

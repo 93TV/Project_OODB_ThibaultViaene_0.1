@@ -528,18 +528,20 @@ public class DataLaag {
 
     public int getEersteVrijeBaan(int serieId) throws SQLException {
         Statement stmt = this.con.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
-        ResultSet rs = stmt.executeQuery("SELECT aantal_banen, count(*) FROM deelnames\n" +
+        ResultSet rs = stmt.executeQuery("SELECT aantal_banen, MAX(baan) FROM deelnames\n" +
                 "RIGHT JOIN series ON serie_id = series.id \n" +
-                "RIGHT JOIN wedstrijdprogrammas ON wedstrijdprogrammas.id = wedstrijdprogramma_id\n" +
-                "RIGHT JOIN wedstrijden ON wedstrijd_id = wedstrijden.id \n" +
-                "RIGHT JOIN zwembaden ON zwembaden.id = zwembad_id\n" +
+                "INNER JOIN wedstrijdprogrammas ON wedstrijdprogrammas.id = wedstrijdprogramma_id\n" +
+                "INNER JOIN wedstrijden ON wedstrijd_id = wedstrijden.id \n" +
+                "INNER JOIN zwembaden ON zwembaden.id = zwembad_id\n" +
                 "WHERE series.id = '" + serieId + "'");
         if (rs.next()) {
-            if (rs.getInt("count(*)") < rs.getInt("aantal_banen"))
-            return rs.getInt("count(*)") ;
+            if (rs.getInt("max(baan)") < rs.getInt("aantal_banen"))
+            return rs.getInt("max(baan)") + 1 ;
         }
         return -1;
     }
+
+
 
     public int getAantalBanen(int serieId) throws SQLException {
         Statement stmt = this.con.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
@@ -585,5 +587,59 @@ public class DataLaag {
             zwemmersEnBesttijden.add(new Besttijd(voorNaam, achterNaam, slag, afstand, besttijd));
         }
         return  zwemmersEnBesttijden;
+    }
+
+    public int getZwemmerIdSerieBaan(int serieId, int baan) throws SQLException {
+        Statement stmt = this.con.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+        ResultSet rs = stmt.executeQuery("Select zwemmer_id FROM deelnames WHERE serie_id = '" + serieId + "' AND baan = '" + baan + "'");
+        if (rs.next()) return rs.getInt("zwemmer_id");
+        else return -1;
+    }
+    public void insertResultatenSim(int serieId,String resultaat, int zwemmerId) throws SQLException {
+        PreparedStatement stmt = null;
+        try {
+            stmt = this.con.prepareStatement("UPDATE deelnames SET resultaat = ? WHERE serie_id = ? AND zwemmer_id = ?");
+            stmt.setTime(1, Time.valueOf(resultaat));
+            stmt.setInt(2, serieId);
+            stmt.setInt(3, zwemmerId);
+            stmt.executeUpdate();
+
+        } finally {
+            if (stmt!=null){
+                stmt.close();
+            }
+
+        }
+
+    }
+
+    public int getAantalZwemmers(int serieId) throws SQLException {
+        Statement stmt = this.con.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+        ResultSet rs = stmt.executeQuery("Select count(*) FROM deelnames WHERE serie_id = '" + serieId + "'");
+        if (rs.next()) return rs.getInt("count(*)");
+        else return -1;
+    }
+
+    public int getAfstandComp(int serieId) throws SQLException {
+        Statement stmt = this.con.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+        ResultSet rs = stmt.executeQuery("SELECT afstand from programmas\n" +
+                "INNER JOIN wedstrijdprogrammas ON programmas.id = programma_id\n" +
+                "INNER JOIN series ON wedstrijdprogramma_id = wedstrijdprogrammas.id\n" +
+                "WHERE series.id = '" + serieId + "'");
+        if (rs.next()) return rs.getInt("afstand");
+        else return -1;
+    }
+
+
+    public int getLengteZwembad(int serieId) throws SQLException {
+        Statement stmt = this.con.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+        ResultSet rs = stmt.executeQuery("SELECT lengte from programmas\n" +
+                "INNER JOIN wedstrijdprogrammas ON programmas.id = programma_id\n" +
+                "INNER JOIN series ON wedstrijdprogramma_id = wedstrijdprogrammas.id\n" +
+                "INNER JOIN wedstrijden ON wedstrijd_id = wedstrijden.id\n" +
+                "INNER JOIN zwembaden ON zwembaden.id = zwembad_id\n" +
+                "WHERE series.id = '" + serieId + "'");
+        if (rs.next()) return rs.getInt("lengte");
+        else return -1;
     }
 }

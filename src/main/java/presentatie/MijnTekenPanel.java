@@ -9,10 +9,10 @@ import java.util.ArrayList;
 
 public class MijnTekenPanel extends javax.swing.JPanel {
     private int aantalBanen = 10;
-    private int afstandComp = 100;
-    private int lengteZwembad = 25;
-    private int aantalLengtes = 4;
-    private int aantalZwemmers = 10;
+    private int afstandComp;
+    private int lengteZwembad;
+    private int aantalLengtes;
+    private int aantalZwemmers;
     private ArrayList<Zwemmer> zwemmers;
     private int grootteZwemmer = 100;
     private boolean initialized;
@@ -21,6 +21,8 @@ public class MijnTekenPanel extends javax.swing.JPanel {
     public MijnTekenPanel() {
         initialized = false;
     }
+
+
 
     private void initialiseerZwemmers() {
         zwemmers = new ArrayList<>();
@@ -44,10 +46,6 @@ public class MijnTekenPanel extends javax.swing.JPanel {
     }
 
     public void startSimulatie() {
-        if (!initialized) {
-            initialiseerZwemmers();
-            initialized = true;
-        }
 
         Timer timer = new Timer(10, e -> {
             zwem();
@@ -77,10 +75,10 @@ public class MijnTekenPanel extends javax.swing.JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        if (!initialized) {
-            initialiseerZwemmers();
-            initialized = true;
-        }
+//        if (!initialized) {
+//            initialiseerZwemmers();
+//            initialized = true;
+//        }
 
         int width = this.getWidth();
         int height = this.getHeight();
@@ -131,4 +129,24 @@ public class MijnTekenPanel extends javax.swing.JPanel {
     public boolean zwemmer10Stopped() {
         return zwemmers.get(9).isGestopt();
     }
+
+
+    public void setAfstandComp(int afstandComp) {
+        this.afstandComp = afstandComp;
+        this.aantalLengtes = this.afstandComp / this.lengteZwembad;
+    }
+
+
+    public void setLengteZwembad(int lengteZwembad) {
+        this.lengteZwembad = lengteZwembad;
+    }
+
+    public void setAantalZwemmers(int aantalZwemmers) {
+        this.aantalZwemmers = aantalZwemmers;
+        initialiseerZwemmers();
+        initialized = true;
+    }
+
+
+
 }

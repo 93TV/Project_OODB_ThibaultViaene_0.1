@@ -145,6 +145,7 @@ public class SimulatieGUI {
     public SimulatieGUI(JFrame surroundingFrame) throws SQLException {
         DataLaag dl = new DataLaag();
         comboVuller(dl);
+        mijnTekenPanel.setAantalZwemmers(dl.getAantalZwemmers(comboBoxSerie.getSelectedIndex() + 1));
 
 
         buttonTerug.addActionListener(new ActionListener() {
@@ -163,8 +164,10 @@ public class SimulatieGUI {
         buttonSimulatie.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 mijnTekenPanel.startSimulatie();
                 tekenPanel = mijnTekenPanel;
+
 
                 long startTime = System.currentTimeMillis() / 1000;
 
@@ -186,7 +189,15 @@ public class SimulatieGUI {
                     public void actionPerformed(ActionEvent e) {
                         updateTimer1(startTime);
                         if (mijnTekenPanel.zwemmer1Stopped()) {
+
                             timer1.stop();
+                            try {
+                                if (dl.getZwemmerIdSerieBaan(comboBoxSerie.getSelectedIndex() +1, 1) != -1){
+                                    dl.insertResultatenSim(comboBoxSerie.getSelectedIndex() + 1,  labelTime1.getText(), dl.getZwemmerIdSerieBaan(comboBoxSerie.getSelectedIndex()+1, 1));
+                                }
+                            } catch (SQLException ex) {
+                                throw new RuntimeException(ex);
+                            }
                         }
 
                     }
@@ -200,6 +211,13 @@ public class SimulatieGUI {
                         updateTimer2(startTime);
                         if (mijnTekenPanel.zwemmer2Stopped()) {
                             timer2.stop();
+                            try {
+                                if (dl.getZwemmerIdSerieBaan(comboBoxSerie.getSelectedIndex() +1, 2) != -1){
+                                    dl.insertResultatenSim(comboBoxSerie.getSelectedIndex() + 1,  labelTime2.getText(), dl.getZwemmerIdSerieBaan(comboBoxSerie.getSelectedIndex()+1, 2));
+                                }
+                            } catch (SQLException ex) {
+                                throw new RuntimeException(ex);
+                            }
                         }
 
                     }
@@ -213,6 +231,13 @@ public class SimulatieGUI {
                         updateTimer3(startTime);
                         if (mijnTekenPanel.zwemmer3Stopped()) {
                             timer3.stop();
+                            try {
+                                if (dl.getZwemmerIdSerieBaan(comboBoxSerie.getSelectedIndex() +1, 3) != -1){
+                                    dl.insertResultatenSim(comboBoxSerie.getSelectedIndex() + 1,  labelTime3.getText(), dl.getZwemmerIdSerieBaan(comboBoxSerie.getSelectedIndex()+1, 3));
+                                }
+                            } catch (SQLException ex) {
+                                throw new RuntimeException(ex);
+                            }
                         }
 
                     }
@@ -226,6 +251,13 @@ public class SimulatieGUI {
                         updateTimer4(startTime);
                         if (mijnTekenPanel.zwemmer4Stopped()) {
                             timer4.stop();
+                            try {
+                                if (dl.getZwemmerIdSerieBaan(comboBoxSerie.getSelectedIndex() +1, 4) != -1){
+                                    dl.insertResultatenSim(comboBoxSerie.getSelectedIndex() + 1,  labelTime4.getText(), dl.getZwemmerIdSerieBaan(comboBoxSerie.getSelectedIndex()+1, 4));
+                                }
+                            } catch (SQLException ex) {
+                                throw new RuntimeException(ex);
+                            }
                         }
 
                     }
@@ -239,6 +271,13 @@ public class SimulatieGUI {
                         updateTimer5(startTime);
                         if (mijnTekenPanel.zwemmer5Stopped()) {
                             timer5.stop();
+                            try {
+                                if (dl.getZwemmerIdSerieBaan(comboBoxSerie.getSelectedIndex() +1, 5) != -1){
+                                    dl.insertResultatenSim(comboBoxSerie.getSelectedIndex() + 1,  labelTime5.getText(), dl.getZwemmerIdSerieBaan(comboBoxSerie.getSelectedIndex()+1, 5));
+                                }
+                            } catch (SQLException ex) {
+                                throw new RuntimeException(ex);
+                            }
                         }
 
                     }
@@ -252,6 +291,13 @@ public class SimulatieGUI {
                         updateTimer6(startTime);
                         if (mijnTekenPanel.zwemmer6Stopped()) {
                             timer6.stop();
+                            try {
+                                if (dl.getZwemmerIdSerieBaan(comboBoxSerie.getSelectedIndex() +1, 6) != -1){
+                                    dl.insertResultatenSim(comboBoxSerie.getSelectedIndex() + 1,  labelTime6.getText(), dl.getZwemmerIdSerieBaan(comboBoxSerie.getSelectedIndex()+1, 6));
+                                }
+                            } catch (SQLException ex) {
+                                throw new RuntimeException(ex);
+                            }
                         }
 
                     }
@@ -265,6 +311,13 @@ public class SimulatieGUI {
                         updateTimer7(startTime);
                         if (mijnTekenPanel.zwemmer7Stopped()) {
                             timer7.stop();
+                            try {
+                                if (dl.getZwemmerIdSerieBaan(comboBoxSerie.getSelectedIndex() +1, 7) != -1){
+                                    dl.insertResultatenSim(comboBoxSerie.getSelectedIndex() + 1,  labelTime7.getText(), dl.getZwemmerIdSerieBaan(comboBoxSerie.getSelectedIndex()+1, 7));
+                                }
+                            } catch (SQLException ex) {
+                                throw new RuntimeException(ex);
+                            }
                         }
 
                     }
@@ -278,6 +331,13 @@ public class SimulatieGUI {
                         updateTimer8(startTime);
                         if (mijnTekenPanel.zwemmer8Stopped()) {
                             timer8.stop();
+                            try {
+                                if (dl.getZwemmerIdSerieBaan(comboBoxSerie.getSelectedIndex() +1, 8) != -1){
+                                    dl.insertResultatenSim(comboBoxSerie.getSelectedIndex() + 1,  labelTime8.getText(), dl.getZwemmerIdSerieBaan(comboBoxSerie.getSelectedIndex()+1, 8));
+                                }
+                            } catch (SQLException ex) {
+                                throw new RuntimeException(ex);
+                            }
                         }
 
                     }
@@ -291,6 +351,13 @@ public class SimulatieGUI {
                         updateTimer9(startTime);
                         if (mijnTekenPanel.zwemmer9Stopped()) {
                             timer9.stop();
+                            try {
+                                if (dl.getZwemmerIdSerieBaan(comboBoxSerie.getSelectedIndex() +1, 9) != -1){
+                                    dl.insertResultatenSim(comboBoxSerie.getSelectedIndex() + 1,  labelTime9.getText(), dl.getZwemmerIdSerieBaan(comboBoxSerie.getSelectedIndex()+1, 9));
+                                }
+                            } catch (SQLException ex) {
+                                throw new RuntimeException(ex);
+                            }
                         }
 
                     }
@@ -304,6 +371,13 @@ public class SimulatieGUI {
                         updateTimer10(startTime);
                         if (mijnTekenPanel.zwemmer10Stopped()) {
                             timer10.stop();
+                            try {
+                                if (dl.getZwemmerIdSerieBaan(comboBoxSerie.getSelectedIndex() +1, 10) != -1){
+                                    dl.insertResultatenSim(comboBoxSerie.getSelectedIndex() + 1,  labelTime10.getText(), dl.getZwemmerIdSerieBaan(comboBoxSerie.getSelectedIndex()+1, 10));
+                                }
+                            } catch (SQLException ex) {
+                                throw new RuntimeException(ex);
+                            }
                         }
 
                     }
@@ -316,9 +390,36 @@ public class SimulatieGUI {
         });
 
 
+        comboBoxSerie.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    mijnTekenPanel.setLengteZwembad(dl.getLengteZwembad(comboBoxSerie.getSelectedIndex() +1));
+                    mijnTekenPanel.setAfstandComp(dl.getAfstandComp(comboBoxSerie.getSelectedIndex() + 1));
 
+                    mijnTekenPanel.setAantalZwemmers(dl.getAantalZwemmers(comboBoxSerie.getSelectedIndex() + 1));
+                    mijnTekenPanel.repaint();
+
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        });
     }
 
+//    private void resetAllTimers() {
+//        labelTimer.setText("00:00:00");
+//        labelTime1.setText("00:00:00");
+//        labelTime2.setText("00:00:00");
+//        labelTime3.setText("00:00:00");
+//        labelTime4.setText("00:00:00");
+//        labelTime5.setText("00:00:00");
+//        labelTime6.setText("00:00:00");
+//        labelTime7.setText("00:00:00");
+//        labelTime8.setText("00:00:00");
+//        labelTime9.setText("00:00:00");
+//        labelTime10.setText("00:00:00");
+//    }
 
 
     public static void main(String[] args) throws SQLException {
