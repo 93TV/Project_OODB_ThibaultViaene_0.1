@@ -37,7 +37,7 @@ public class Animatie extends JPanel {
 
         z = new Zwemmer(0, 0, 30, 0.5);
         fish = new Zwemmer(0,0,30, 0.25);
-        bigFish = new Zwemmer(0,0200,60, 0.12);
+        bigFish = new Zwemmer(0,0200,60, 0.20);
         frames = new ImageIcon[6];
 
         currentFrameIndex = 0;
@@ -68,14 +68,14 @@ public class Animatie extends JPanel {
 
     private void zwem() {
         if (z.getX() > this.getWidth()) {
-            z = new Zwemmer(-z.getGrootte(), 0, 30, 2);
+            z = new Zwemmer(-z.getGrootte(), 0, 30, 0.5);
 
         }
         if (fish.getX() > this.getWidth()){
-            fish = new Zwemmer(-fish.getGrootte(), 0, 30,2);
+            fish = new Zwemmer(-fish.getGrootte(), 0, 30,0.25);
         }
         if (bigFish.getX() > this.getWidth()){
-            bigFish = new Zwemmer(-bigFish.getGrootte(), 0, 60,1);
+            bigFish = new Zwemmer(-bigFish.getGrootte(), 0, 60,0.20);
         }
         z.beweeg();
         fish.beweeg();
@@ -128,29 +128,17 @@ public class Animatie extends JPanel {
 
     private static void startmusic() {
         String audioFilePath = "src/main/java/recources/war.wav";
-
         try {
-            // Open an audio input stream from the specified file
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(audioFilePath));
-
-            // Get the clip resource
             Clip clip = AudioSystem.getClip();
-
-            // Open audio clip and load samples from the audio input stream
             clip.open(audioInputStream);
-
-            // Start playing the audio clip
             clip.start();
-
-            // Keep the program running until the audio clip is completed
             while (!clip.isRunning()) {
                 Thread.sleep(10);
             }
             while (clip.isRunning()) {
                 Thread.sleep(10);
             }
-
-            // Close the resources
             clip.close();
             audioInputStream.close();
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException | InterruptedException e) {

@@ -114,7 +114,7 @@ public class DataLaag {
 
     private int aantalBanen(int zwbID) throws SQLException {
         Statement stmt = this.con.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
-        ResultSet rs = stmt.executeQuery("Select aantal_banen FROM Zwembaden WHERE naam = '" + zwbID + "'");
+        ResultSet rs = stmt.executeQuery("Select aantal_banen FROM Zwembaden WHERE zwembad.id = '" + zwbID + "'");
         while (rs.next()) {
             return rs.getInt("aantal_banen");
         }
@@ -541,22 +541,6 @@ public class DataLaag {
         return -1;
     }
 
-
-
-    public int getAantalBanen(int serieId) throws SQLException {
-        Statement stmt = this.con.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
-        ResultSet rs = stmt.executeQuery("SELECT aantal_banen, count(*) FROM deelnames\n" +
-                "RIGHT JOIN series ON serie_id = series.id \n" +
-                "RIGHT JOIN wedstrijdprogrammas ON wedstrijdprogrammas.id = wedstrijdprogramma_id\n" +
-                "RIGHT JOIN wedstrijden ON wedstrijd_id = wedstrijden.id \n" +
-                "RIGHT JOIN zwembaden ON zwembaden.id = zwembad_id\n" +
-                "WHERE series.id = '" + serieId + "'");
-        if (rs.next()) {
-            return rs.getInt("count(*)") ;
-        }
-        return -1;
-    }
-
     public ArrayList<Deelname> getDeelnamesSerie(int serieId) throws SQLException {
         ArrayList<Deelname> deelnames = new ArrayList<>();
         Statement stmt = this.con.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
@@ -589,12 +573,6 @@ public class DataLaag {
         return  zwemmersEnBesttijden;
     }
 
-//    public int getZwemmerIdSerieBaan(int serieId, int baan) throws SQLException {
-//        Statement stmt = this.con.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
-//        ResultSet rs = stmt.executeQuery("Select zwemmer_id FROM deelnames WHERE serie_id = '" + serieId + "' AND baan = '" + baan + "'");
-//        if (rs.next()) return rs.getInt("zwemmer_id");
-//        else return -1;
-//    }
     public void insertResultatenSim(int serieId,String resultaat, int baan) throws SQLException {
         PreparedStatement stmt = null;
         try {
