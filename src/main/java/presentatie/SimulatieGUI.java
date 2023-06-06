@@ -50,14 +50,11 @@ public class SimulatieGUI {
         if (!mijnTekenPanel.zwemmer10Stopped()) labelTime10.setText(formattedTime);
     }
 
-
-
     private void comboVuller(DataLaag dl) throws SQLException {
         for (Serie s : dl.geefSeries()) {
             comboBoxSerie.addItem(s.toString());
         }
     }
-
 
     public SimulatieGUI(JFrame surroundingFrame) throws SQLException {
         DataLaag dl = new DataLaag();
@@ -94,6 +91,21 @@ public class SimulatieGUI {
                         updateTimer(startTime);
                         if (mijnTekenPanel.alleZwemmersFinished()) {
                             timer.stop();
+                            try {
+                                dl.insertResultatenSim(comboBoxSerie.getSelectedIndex() + 1, labelTime1.getText(), 0);
+                                dl.insertResultatenSim(comboBoxSerie.getSelectedIndex() + 1, labelTime2.getText(), 1);
+                                dl.insertResultatenSim(comboBoxSerie.getSelectedIndex() + 1, labelTime3.getText(), 2);
+                                dl.insertResultatenSim(comboBoxSerie.getSelectedIndex() + 1, labelTime4.getText(), 3);
+                                dl.insertResultatenSim(comboBoxSerie.getSelectedIndex() + 1, labelTime5.getText(), 4);
+                                dl.insertResultatenSim(comboBoxSerie.getSelectedIndex() + 1, labelTime6.getText(), 5);
+                                dl.insertResultatenSim(comboBoxSerie.getSelectedIndex() + 1, labelTime7.getText(), 6);
+                                dl.insertResultatenSim(comboBoxSerie.getSelectedIndex() + 1, labelTime8.getText(), 7);
+                                dl.insertResultatenSim(comboBoxSerie.getSelectedIndex() + 1, labelTime9.getText(), 8);
+                                dl.insertResultatenSim(comboBoxSerie.getSelectedIndex() + 1, labelTime10.getText(), 9);
+                            } catch (SQLException ex) {
+                                throw new RuntimeException(ex);
+                            }
+
                         }
 
                     }
@@ -123,27 +135,21 @@ public class SimulatieGUI {
     }
 
 
-
     public static void main(String[] args) throws SQLException {
-
         JFrame frame = new JFrame("SimulatieGUI");
         SimulatieGUI simGUI = new SimulatieGUI(frame);
         frame.setContentPane(new SimulatieGUI(frame).mainPanelSimulatie);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         simGUI.createUIComponents();
         frame.setTitle("Simulatie");
-
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
-
-
     }
 
 
     void createUIComponents() throws SQLException {
         mijnTekenPanel = new MijnTekenPanel();
         tekenPanel = mijnTekenPanel;
-
     }
 }

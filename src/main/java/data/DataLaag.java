@@ -589,19 +589,19 @@ public class DataLaag {
         return  zwemmersEnBesttijden;
     }
 
-    public int getZwemmerIdSerieBaan(int serieId, int baan) throws SQLException {
-        Statement stmt = this.con.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
-        ResultSet rs = stmt.executeQuery("Select zwemmer_id FROM deelnames WHERE serie_id = '" + serieId + "' AND baan = '" + baan + "'");
-        if (rs.next()) return rs.getInt("zwemmer_id");
-        else return -1;
-    }
-    public void insertResultatenSim(int serieId,String resultaat, int zwemmerId) throws SQLException {
+//    public int getZwemmerIdSerieBaan(int serieId, int baan) throws SQLException {
+//        Statement stmt = this.con.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+//        ResultSet rs = stmt.executeQuery("Select zwemmer_id FROM deelnames WHERE serie_id = '" + serieId + "' AND baan = '" + baan + "'");
+//        if (rs.next()) return rs.getInt("zwemmer_id");
+//        else return -1;
+//    }
+    public void insertResultatenSim(int serieId,String resultaat, int baan) throws SQLException {
         PreparedStatement stmt = null;
         try {
-            stmt = this.con.prepareStatement("UPDATE deelnames SET resultaat = ? WHERE serie_id = ? AND zwemmer_id = ?");
+            stmt = this.con.prepareStatement("UPDATE deelnames SET resultaat = ? WHERE serie_id = ? AND baan = ?");
             stmt.setTime(1, Time.valueOf(resultaat));
             stmt.setInt(2, serieId);
-            stmt.setInt(3, zwemmerId);
+            stmt.setInt(3, baan);
             stmt.executeUpdate();
 
         } finally {
