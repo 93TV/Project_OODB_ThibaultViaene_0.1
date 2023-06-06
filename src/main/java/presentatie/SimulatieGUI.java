@@ -1,6 +1,7 @@
 package presentatie;
 
 import data.DataLaag;
+import logica.Deelname;
 import logica.Serie;
 
 import javax.swing.*;
@@ -31,6 +32,7 @@ public class SimulatieGUI {
     private MijnTekenPanel mijnTekenPanel;
     private Timer timer;
 
+
     private void updateTimer(long startTime) {
         Duration elapsedTime = Duration.ofSeconds(System.currentTimeMillis() / 1000 - startTime);
         String formattedTime = String.format("%02d:%02d:%02d",
@@ -38,16 +40,21 @@ public class SimulatieGUI {
                 elapsedTime.toMinutesPart(),
                 elapsedTime.toSecondsPart());
         labelTimer.setText(formattedTime);
-        if (!mijnTekenPanel.zwemmer1Stopped()) labelTime1.setText(formattedTime);
-        if (!mijnTekenPanel.zwemmer2Stopped()) labelTime2.setText(formattedTime);
-        if (!mijnTekenPanel.zwemmer3Stopped()) labelTime3.setText(formattedTime);
-        if (!mijnTekenPanel.zwemmer4Stopped()) labelTime4.setText(formattedTime);
-        if (!mijnTekenPanel.zwemmer5Stopped()) labelTime5.setText(formattedTime);
-        if (!mijnTekenPanel.zwemmer6Stopped()) labelTime6.setText(formattedTime);
-        if (!mijnTekenPanel.zwemmer7Stopped()) labelTime7.setText(formattedTime);
-        if (!mijnTekenPanel.zwemmer8Stopped()) labelTime8.setText(formattedTime);
-        if (!mijnTekenPanel.zwemmer9Stopped()) labelTime9.setText(formattedTime);
-        if (!mijnTekenPanel.zwemmer10Stopped()) labelTime10.setText(formattedTime);
+        try {
+            if (!mijnTekenPanel.zwemmer1Stopped()) labelTime1.setText(formattedTime);
+            if (!mijnTekenPanel.zwemmer2Stopped()) labelTime2.setText(formattedTime);
+            if (!mijnTekenPanel.zwemmer3Stopped()) labelTime3.setText(formattedTime);
+            if (!mijnTekenPanel.zwemmer4Stopped()) labelTime4.setText(formattedTime);
+            if (!mijnTekenPanel.zwemmer5Stopped()) labelTime5.setText(formattedTime);
+            if (!mijnTekenPanel.zwemmer6Stopped()) labelTime6.setText(formattedTime);
+            if (!mijnTekenPanel.zwemmer7Stopped()) labelTime7.setText(formattedTime);
+            if (!mijnTekenPanel.zwemmer8Stopped()) labelTime8.setText(formattedTime);
+            if (!mijnTekenPanel.zwemmer9Stopped()) labelTime9.setText(formattedTime);
+            if (!mijnTekenPanel.zwemmer10Stopped()) labelTime10.setText(formattedTime);
+        } catch (Exception x) {
+
+        }
+
     }
 
     private void comboVuller(DataLaag dl) throws SQLException {
@@ -92,22 +99,31 @@ public class SimulatieGUI {
                         if (mijnTekenPanel.alleZwemmersFinished()) {
                             timer.stop();
                             try {
-                                dl.insertResultatenSim(comboBoxSerie.getSelectedIndex() + 1, labelTime1.getText(), 0);
-                                dl.insertResultatenSim(comboBoxSerie.getSelectedIndex() + 1, labelTime2.getText(), 1);
-                                dl.insertResultatenSim(comboBoxSerie.getSelectedIndex() + 1, labelTime3.getText(), 2);
-                                dl.insertResultatenSim(comboBoxSerie.getSelectedIndex() + 1, labelTime4.getText(), 3);
-                                dl.insertResultatenSim(comboBoxSerie.getSelectedIndex() + 1, labelTime5.getText(), 4);
-                                dl.insertResultatenSim(comboBoxSerie.getSelectedIndex() + 1, labelTime6.getText(), 5);
-                                dl.insertResultatenSim(comboBoxSerie.getSelectedIndex() + 1, labelTime7.getText(), 6);
-                                dl.insertResultatenSim(comboBoxSerie.getSelectedIndex() + 1, labelTime8.getText(), 7);
-                                dl.insertResultatenSim(comboBoxSerie.getSelectedIndex() + 1, labelTime9.getText(), 8);
-                                dl.insertResultatenSim(comboBoxSerie.getSelectedIndex() + 1, labelTime10.getText(), 9);
+                                dl.insertResultatenSim(comboBoxSerie.getSelectedIndex() + 1, labelTime1.getText(), 1);
+                                dl.insertResultatenSim(comboBoxSerie.getSelectedIndex() + 1, labelTime2.getText(), 2);
+                                dl.insertResultatenSim(comboBoxSerie.getSelectedIndex() + 1, labelTime3.getText(), 3);
+                                dl.insertResultatenSim(comboBoxSerie.getSelectedIndex() + 1, labelTime4.getText(), 4);
+                                dl.insertResultatenSim(comboBoxSerie.getSelectedIndex() + 1, labelTime5.getText(), 5);
+                                dl.insertResultatenSim(comboBoxSerie.getSelectedIndex() + 1, labelTime6.getText(), 6);
+                                dl.insertResultatenSim(comboBoxSerie.getSelectedIndex() + 1, labelTime7.getText(), 7);
+                                dl.insertResultatenSim(comboBoxSerie.getSelectedIndex() + 1, labelTime8.getText(), 8);
+                                dl.insertResultatenSim(comboBoxSerie.getSelectedIndex() + 1, labelTime9.getText(), 9);
+                                dl.insertResultatenSim(comboBoxSerie.getSelectedIndex() + 1, labelTime10.getText(), 10);
                             } catch (SQLException ex) {
                                 throw new RuntimeException(ex);
                             }
+                            String deelnames = "";
+                            try {
+                                for (Deelname dl : dl.getDeelnamesSerie(comboBoxSerie.getSelectedIndex() + 1)) {
+
+                                    deelnames += dl + labelTime2.getText() + "\n ";
+                                }
+                            } catch (SQLException ex) {
+                                throw new RuntimeException(ex);
+                            }
+                            JOptionPane.showMessageDialog(mainPanelSimulatie, "Einde simulatie! \n" + deelnames);
 
                         }
-
                     }
                 });
                 timer.setInitialDelay(0);
@@ -123,7 +139,6 @@ public class SimulatieGUI {
                 try {
                     mijnTekenPanel.setLengteZwembad(dl.getLengteZwembad(comboBoxSerie.getSelectedIndex() + 1));
                     mijnTekenPanel.setAfstandComp(dl.getAfstandComp(comboBoxSerie.getSelectedIndex() + 1));
-
                     mijnTekenPanel.setAantalZwemmers(dl.getAantalZwemmers(comboBoxSerie.getSelectedIndex() + 1));
                     mijnTekenPanel.repaint();
 

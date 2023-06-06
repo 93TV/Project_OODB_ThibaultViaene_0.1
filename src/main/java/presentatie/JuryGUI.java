@@ -25,6 +25,7 @@ public class JuryGUI {
     private JComboBox comboBoxWedstrijden;
     private JLabel labelErrorJury;
     private JButton buttonNaarWedstrijdProgramma;
+    private JComboBox comboBoxOfficialId;
 
     private DefaultListModel<Official> juryListModel;
 
@@ -34,6 +35,9 @@ public class JuryGUI {
         }
         for (Functie f : Functie.values()) {
             comboBoxFuncties.addItem(f);
+        }
+        for (Official o : dl.geefAlleOfficials()) {
+            comboBoxOfficialId.addItem(o.toString2());
         }
     }
 
@@ -45,7 +49,7 @@ public class JuryGUI {
     }
 
     private Official maakOfficial() {
-        return new Official(Integer.parseInt(textFieldOfficial.getText()), comboBoxFuncties.getSelectedItem().toString());
+        return new Official(comboBoxOfficialId.getSelectedIndex() + 1 , comboBoxFuncties.getSelectedItem().toString());
     }
 
     public JuryGUI(JFrame surroundingFrame) throws SQLException {
@@ -95,7 +99,6 @@ public class JuryGUI {
             public void actionPerformed(ActionEvent e) {
                 try {
                     try {
-                        if (textFieldOfficial.getText().isEmpty()) throw new IllegalArgumentException("Gelieve een id in te vullen!");
                         dl.insertJury(maakOfficial(), comboBoxWedstrijden.getSelectedIndex() + 1);
                         labelErrorJury.setText("Jury toegevoegd!");
                         geefJury(dl, comboBoxWedstrijden.getSelectedIndex() + 1);

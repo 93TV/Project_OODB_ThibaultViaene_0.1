@@ -93,6 +93,11 @@ public class ZwembadGUI {
                 } catch (IllegalArgumentException ex) {
                     labelErrorZwembad.setForeground(Color.RED);
                     labelErrorZwembad.setText(ex.getMessage());
+                    try {
+                        vulTextField(dl);
+                    } catch (SQLException exc) {
+                        throw new RuntimeException(exc);
+                    }
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }

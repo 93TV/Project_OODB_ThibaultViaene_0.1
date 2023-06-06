@@ -4,12 +4,8 @@ import logica.*;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import static logica.Helper.aanntalBanenNaarEnum;
-import static logica.Helper.lengteNaarEnum;
 
 /**
  * Project_OODB_ThibaultViaene_0.1 : DataLayer
@@ -114,7 +110,7 @@ public class DataLaag {
 
     private int aantalBanen(int zwbID) throws SQLException {
         Statement stmt = this.con.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
-        ResultSet rs = stmt.executeQuery("Select aantal_banen FROM Zwembaden WHERE zwembad.id = '" + zwbID + "'");
+        ResultSet rs = stmt.executeQuery("Select aantal_banen FROM Zwembaden WHERE zwembaden.id = '" + zwbID + "'");
         while (rs.next()) {
             return rs.getInt("aantal_banen");
         }
@@ -420,18 +416,18 @@ public class DataLaag {
     }
 
     public ArrayList<WedstrijdProgramma> geefWedstrijdProgrammas(int wedId) throws SQLException {
-            ArrayList<WedstrijdProgramma> wedstrijdProgrammas = new ArrayList<>();
-            Statement stmt = this.con.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
-            ResultSet rs = stmt.executeQuery("Select * FROM wedstrijdprogrammas WHERE wedstrijd_id = '" + wedId + "'");
-            while (rs.next()) {
-                int id = rs.getInt("id");
-                int progId = rs.getInt("programma_id");
-                int programmanummer = rs.getInt("programmanummer");
-                LeeftijdsCategorie lc = Helper.reverseLeeftijd(rs.getString("leeftijdscategorie"));
-                Time aanvangUur = rs.getTime("aanvangsuur");
-                wedstrijdProgrammas.add(new WedstrijdProgramma(id, wedId, progId, programmanummer, lc, aanvangUur));
-            }
-            return wedstrijdProgrammas;
+        ArrayList<WedstrijdProgramma> wedstrijdProgrammas = new ArrayList<>();
+        Statement stmt = this.con.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+        ResultSet rs = stmt.executeQuery("Select * FROM wedstrijdprogrammas WHERE wedstrijd_id = '" + wedId + "'");
+        while (rs.next()) {
+            int id = rs.getInt("id");
+            int progId = rs.getInt("programma_id");
+            int programmanummer = rs.getInt("programmanummer");
+            LeeftijdsCategorie lc = Helper.reverseLeeftijd(rs.getString("leeftijdscategorie"));
+            Time aanvangUur = rs.getTime("aanvangsuur");
+            wedstrijdProgrammas.add(new WedstrijdProgramma(id, wedId, progId, programmanummer, lc, aanvangUur));
+        }
+        return wedstrijdProgrammas;
     }
 
     public void insertSessie(Serie s) throws SQLException {
@@ -536,7 +532,7 @@ public class DataLaag {
                 "WHERE series.id = '" + serieId + "'");
         if (rs.next()) {
             if (rs.getInt("max(baan)") < rs.getInt("aantal_banen"))
-            return rs.getInt("max(baan)") + 1 ;
+                return rs.getInt("max(baan)") + 1;
         }
         return -1;
     }
@@ -562,7 +558,7 @@ public class DataLaag {
                 "INNER JOIN besttijden ON besttijden.zwemmer_id = deelnames.zwemmer_id\n" +
                 "INNER JOIN programmas ON besttijden.programma_id = programmas.id\n" +
                 "WHERE  besttijden.programma_id = '" + progId + "' AND serie_id = '" + serieId + "'");
-        while (rs.next()){
+        while (rs.next()) {
             String achterNaam = rs.getString("naam");
             String voorNaam = rs.getString("voornaam");
             Slag slag = Slag.valueOf(rs.getString("slag"));
@@ -570,10 +566,10 @@ public class DataLaag {
             Time besttijd = rs.getTime("besttijd");
             zwemmersEnBesttijden.add(new Besttijd(voorNaam, achterNaam, slag, afstand, besttijd));
         }
-        return  zwemmersEnBesttijden;
+        return zwemmersEnBesttijden;
     }
 
-    public void insertResultatenSim(int serieId,String resultaat, int baan) throws SQLException {
+    public void insertResultatenSim(int serieId, String resultaat, int baan) throws SQLException {
         PreparedStatement stmt = null;
         try {
             stmt = this.con.prepareStatement("UPDATE deelnames SET resultaat = ? WHERE serie_id = ? AND baan = ?");
@@ -583,7 +579,7 @@ public class DataLaag {
             stmt.executeUpdate();
 
         } finally {
-            if (stmt!=null){
+            if (stmt != null) {
                 stmt.close();
             }
 
@@ -619,5 +615,19 @@ public class DataLaag {
                 "WHERE series.id = '" + serieId + "'");
         if (rs.next()) return rs.getInt("lengte");
         else return -1;
+    }
+
+    public ArrayList<Official> geefAlleOfficials() throws SQLException {
+        ArrayList<Official> alleOfficials = new ArrayList<>();
+        Statement stmt = this.con.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+        ResultSet rs = stmt.executeQuery("SELECT persoon_id, naam, voornaam from personen\n" +
+                "INNER JOIN officials ON persoon_id = personen.id;");
+        while (rs.next()) {
+            int oId = rs.getInt("persoon_id");
+            String naam = rs.getString("naam");
+            String voornaam = rs.getString("voornaam");
+            alleOfficials.add(new Official(oId, naam, voornaam));
+        }
+        return alleOfficials;
     }
 }

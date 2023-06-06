@@ -17,11 +17,7 @@ public class MijnTekenPanel extends javax.swing.JPanel {
     private int grootteZwemmer = 100;
     private boolean initialized;
     private int gestopteZwemmers = 0;
-
-    public MijnTekenPanel() {
-        initialized = false;
-    }
-
+    public MijnTekenPanel() {initialized = false;}
 
 
     private void initialiseerZwemmers() {
@@ -52,6 +48,7 @@ public class MijnTekenPanel extends javax.swing.JPanel {
             repaint();
         });
         timer.start();
+
     }
 
     private void zwem() {
@@ -74,11 +71,6 @@ public class MijnTekenPanel extends javax.swing.JPanel {
 
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-
-//        if (!initialized) {
-//            initialiseerZwemmers();
-//            initialized = true;
-//        }
 
         int width = this.getWidth();
         int height = this.getHeight();
@@ -146,7 +138,5 @@ public class MijnTekenPanel extends javax.swing.JPanel {
         initialiseerZwemmers();
         initialized = true;
     }
-
-
 
 }

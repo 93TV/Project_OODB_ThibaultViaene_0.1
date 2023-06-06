@@ -59,7 +59,7 @@
       </component>
       <component id="2a2d2" class="javax.swing.JTextField" binding="textFieldAchterNaam">
         <constraints>
-          <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="1" use-parent-layout="false">
+          <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
           </grid>
         </constraints>
@@ -83,7 +83,7 @@
       </component>
       <component id="b82e5" class="javax.swing.JButton" binding="buttonZwemmerToevoegen">
         <constraints>
-          <grid row="3" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="1" use-parent-layout="false"/>
+          <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <label value="Voeg Zwemmer Toe"/>
@@ -106,6 +106,14 @@
         <properties>
           <name value=""/>
           <text value=""/>
+        </properties>
+      </component>
+      <component id="9b920" class="javax.swing.JButton" binding="buttonVolgende">
+        <constraints>
+          <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Volgende"/>
         </properties>
       </component>
     </children>
