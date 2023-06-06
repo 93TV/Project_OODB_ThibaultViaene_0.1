@@ -35,9 +35,9 @@ public class Animatie extends JPanel {
         grass = new ImageIcon("src/main/java/recources/grass3.png").getImage();
         fishingHut = new ImageIcon("src/main/java/recources/Fishing_hut.png").getImage();
 
-        z = new Zwemmer(0, 0, 30, 3);
-        fish = new Zwemmer(0,0,30, 2);
-        bigFish = new Zwemmer(0,0200,60, 1);
+        z = new Zwemmer(0, 0, 30, 0.5);
+        fish = new Zwemmer(0,0,30, 0.25);
+        bigFish = new Zwemmer(0,0200,60, 0.12);
         frames = new ImageIcon[6];
 
         currentFrameIndex = 0;
