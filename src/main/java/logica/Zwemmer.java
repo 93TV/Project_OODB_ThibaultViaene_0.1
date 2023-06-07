@@ -24,7 +24,7 @@ public class Zwemmer {
         this.y = y;
         this.grootte = grootte;
         this.snelheid = snelheid;
-        this.richting = 5;
+        this.richting = 6;
     }
 
     public Zwemmer(int x, int y, int size) {
@@ -69,7 +69,7 @@ public class Zwemmer {
         if (snelheid != 0) {
             richting *= -1;
             afgelegdeLengte += 1;
-            snelheid *= (0.8 + Math.random()*0.1);
+            snelheid *= (0.9 + Math.random()*0.1);
             mirrorImage();
         } else {
             try {
@@ -86,7 +86,7 @@ public class Zwemmer {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        x += richting * (snelheid * (0.8 + Math.random()*0.3));
+        x += richting * (snelheid * (0.7 + Math.random()*0.5));
     }
 
     public void stop() {
@@ -107,8 +107,5 @@ public class Zwemmer {
         img = mirroredImage;
     }
 
-      public void resetZwemmer() {
-
-    }
 }
 

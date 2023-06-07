@@ -100,7 +100,6 @@ public class OverzichtGUI {
                 super.mouseClicked(e);
                 Serie s = (Serie) listSerie.getModel().getElementAt(listSerie.locationToIndex(e.getPoint()));
                 try {
-//                    geefDeelnames(dl, s);
                     geefBesttijden(dl, comboBoxWedstrijden.getSelectedIndex() + 1, s.getId());
                     listZwemmers.setModel(besttijdDefaultListModel);
 
@@ -145,13 +144,6 @@ public class OverzichtGUI {
         serieListModel.clear();
         for (Serie s: dl.geefSeries(wedProg.getId())){
             serieListModel.addElement(s);
-        }
-    }
-
-    private void geefDeelnames(DataLaag dl, Serie s) throws SQLException {
-        deelnameDefaultListModel.clear();
-        for (Deelname d: dl.getDeelnamesSerie(s.getId())){
-            deelnameDefaultListModel.addElement(d);
         }
     }
 

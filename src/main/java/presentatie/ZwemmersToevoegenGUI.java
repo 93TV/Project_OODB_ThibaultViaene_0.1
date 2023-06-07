@@ -18,6 +18,7 @@ public class ZwemmersToevoegenGUI {
     private JButton buttonZwemmerToevoegen;
     private JButton buttonTerug;
     private JLabel labelErrorZwemmers;
+    private JButton buttonVolgende;
     private DefaultListModel<Deelname> serieListModel ;
 
     public ZwemmersToevoegenGUI(JFrame surroundingFrame) throws SQLException {
@@ -61,6 +62,24 @@ public class ZwemmersToevoegenGUI {
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
+            }
+        });
+        buttonVolgende.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame frame = new JFrame("OverzichtGUI");
+                try {
+                    frame.setContentPane(new OverzichtGUI(frame).mainPanelOverzicht);
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frame.setTitle("Overzicht");
+                frame.pack();
+                frame.setLocationRelativeTo(null);
+                frame.setVisible(true);
+
+                surroundingFrame.dispose();
             }
         });
     }
