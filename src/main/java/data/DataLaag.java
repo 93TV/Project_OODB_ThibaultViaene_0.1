@@ -541,7 +541,7 @@ public class DataLaag {
     public ArrayList<Deelname> getDeelnamesSerie(int serieId) throws SQLException {
         ArrayList<Deelname> deelnames = new ArrayList<>();
         Statement stmt = this.con.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
-        ResultSet rs = stmt.executeQuery("Select * FROM deelnames INNER JOIN personen ON zwemmer_id = personen.id WHERE serie_id = '" + serieId + "'");
+        ResultSet rs = stmt.executeQuery("Select * FROM deelnames INNER JOIN personen ON zwemmer_id = personen.id WHERE serie_id = '" + serieId + "' ORDER BY resultaat ASC");
         while (rs.next()) {
             String naam = rs.getString("naam");
             String vnaam = rs.getString("voornaam");
