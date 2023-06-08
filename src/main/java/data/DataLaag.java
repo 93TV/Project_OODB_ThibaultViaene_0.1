@@ -16,8 +16,8 @@ import java.util.logging.Logger;
 public class DataLaag {
 
     private String dbName = "zwemwedstrijden";
-    private final String login = "root";
-    private final String pass = "279Kp9g5kf279LO!";
+    private final String login = "eloict";
+    private final String pass = "Azerty123!";
     private Connection con;
 
     public DataLaag() {
