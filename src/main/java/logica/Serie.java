@@ -49,10 +49,6 @@ public class Serie {
         return wedstrijdProgrammaId;
     }
 
-    public void setWedstrijdProgrammaId(int wedstrijdProgrammaId) {
-        this.wedstrijdProgrammaId = wedstrijdProgrammaId;
-    }
-
     @Override
     public String toString() {
         return "Serie: " + id + " / Reeks: " + reeksNummer + " / Aanvang: " + aanvangsUur;

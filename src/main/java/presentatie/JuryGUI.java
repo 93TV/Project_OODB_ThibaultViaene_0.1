@@ -14,7 +14,6 @@ public class JuryGUI {
     public JPanel manPanelJury;
     private JLabel wedstrijdLabelTitel;
     private JLabel labelOfficialTitel;
-    private JTextField textFieldOfficial;
     private JComboBox comboBoxFuncties;
     private JLabel labelFunctieTitel;
     private JButton buttonJuryToevoegen;
@@ -82,7 +81,6 @@ public class JuryGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    if (textFieldOfficial.getText().isEmpty()) throw new IllegalArgumentException("Gelieve een id in te vullen!");
                     dl.deleteJury(maakOfficial(), comboBoxWedstrijden.getSelectedIndex() + 1);
                     labelErrorJury.setText("Jury lid verwijderd!");
                     geefJury(dl, comboBoxWedstrijden.getSelectedIndex() + 1);

@@ -15,9 +15,10 @@ public class MijnTekenPanel extends javax.swing.JPanel {
     private int aantalZwemmers;
     private ArrayList<Zwemmer> zwemmers;
     private int grootteZwemmer = 100;
-    private boolean initialized;
     private int gestopteZwemmers = 0;
-    public MijnTekenPanel() {initialized = false;}
+    public MijnTekenPanel() {
+
+    }
 
 
     private void initialiseerZwemmers() {
@@ -25,7 +26,7 @@ public class MijnTekenPanel extends javax.swing.JPanel {
         int height = this.getHeight();
         int baan = height / aantalBanen;
         for (int i = 0; i < aantalZwemmers; i++) {
-            zwemmers.add(new Zwemmer(0, i*baan - grootteZwemmer/3 , grootteZwemmer));
+            zwemmers.add(new Zwemmer(0,  i*baan - grootteZwemmer/3 , grootteZwemmer));
         }
     }
 
@@ -36,14 +37,14 @@ public class MijnTekenPanel extends javax.swing.JPanel {
     private void tekenZwemmers(Graphics g){
         g.setColor(Color.black);
         for (Zwemmer z : zwemmers) {
-            g.drawImage(z.getImg(), z.getX(), z.getY(), z.getGrootte(), z.getGrootte(), null);
+            g.drawImage(z.getImg(), z.getX(), z.getY(), z.getGROOTTE(), z.getGROOTTE(), null);
 
         }
     }
 
     public void startSimulatie() {
 
-        Timer timer = new Timer(10, e -> {
+        Timer timer = new Timer(1, e -> {
             zwem();
             repaint();
         });
@@ -136,7 +137,6 @@ public class MijnTekenPanel extends javax.swing.JPanel {
     public void setAantalZwemmers(int aantalZwemmers) {
         this.aantalZwemmers = aantalZwemmers;
         initialiseerZwemmers();
-        initialized = true;
     }
 
 }

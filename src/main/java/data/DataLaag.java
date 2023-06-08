@@ -516,6 +516,7 @@ public class DataLaag {
         }
     }
 
+
     private boolean alInDeelname(Deelname d) throws SQLException {
         Statement stmt = this.con.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
         ResultSet rs = stmt.executeQuery("Select * FROM deelnames WHERE zwemmer_id = '" + d.getZwemmerId() + "' AND serie_id = '" + d.getSerieId() + "'");

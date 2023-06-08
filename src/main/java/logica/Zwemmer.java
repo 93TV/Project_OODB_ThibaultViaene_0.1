@@ -2,16 +2,14 @@ package logica;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
 public class Zwemmer {
     private int x;
-    private int y;
-    private int grootte;
+    private final int Y;
+    private final int GROOTTE;
     private double snelheid;
     private int richting;
     private int afgelegdeLengte = 0;
@@ -21,19 +19,18 @@ public class Zwemmer {
 
     public Zwemmer(int x, int y, int grootte, double snelheid) {
         this.x = x;
-        this.y = y;
-        this.grootte = grootte;
+        this.Y = y;
+        this.GROOTTE = grootte;
         this.snelheid = snelheid;
         this.richting = 6;
     }
 
     public Zwemmer(int x, int y, int size) {
         this.x = x;
-        this.y = y;
-        this.grootte = size;
+        this.Y = y;
+        this.GROOTTE = size;
         this.richting = 6;
         this.snelheid = 0.3 + Math.random() * 0.2;
-        System.out.println(this.snelheid);
         try {
             img = ImageIO.read(new File("src/main/java/recources/SwimA1.png"));
         } catch (IOException e) {
@@ -58,11 +55,11 @@ public class Zwemmer {
     }
 
     public int getY() {
-        return y;
+        return Y;
     }
 
-    public int getGrootte() {
-        return grootte;
+    public int getGROOTTE() {
+        return GROOTTE;
     }
 
     public void reverseRichting() {

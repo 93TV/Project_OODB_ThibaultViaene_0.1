@@ -68,14 +68,14 @@ public class Animatie extends JPanel {
 
     private void zwem() {
         if (z.getX() > this.getWidth()) {
-            z = new Zwemmer(-z.getGrootte(), 0, 30, 0.5);
+            z = new Zwemmer(-z.getGROOTTE(), 0, 30, 0.5);
 
         }
         if (fish.getX() > this.getWidth()){
-            fish = new Zwemmer(-fish.getGrootte(), 0, 30,0.25);
+            fish = new Zwemmer(-fish.getGROOTTE(), 0, 30,0.25);
         }
         if (bigFish.getX() > this.getWidth()){
-            bigFish = new Zwemmer(-bigFish.getGrootte(), 0, 60,0.20);
+            bigFish = new Zwemmer(-bigFish.getGROOTTE(), 0, 60,0.20);
         }
         z.beweeg();
         fish.beweeg();
