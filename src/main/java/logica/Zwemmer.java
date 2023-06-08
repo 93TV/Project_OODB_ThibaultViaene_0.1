@@ -32,7 +32,7 @@ public class Zwemmer {
         this.y = y;
         this.grootte = size;
         this.richting = 6;
-        this.snelheid = 0.3 + Math.random()*0.2;
+        this.snelheid = 0.3 + Math.random() * 0.2;
         System.out.println(this.snelheid);
         try {
             img = ImageIO.read(new File("src/main/java/recources/SwimA1.png"));
@@ -69,7 +69,7 @@ public class Zwemmer {
         if (snelheid != 0) {
             richting *= -1;
             afgelegdeLengte += 1;
-            snelheid *= (0.9 + Math.random()*0.1);
+            snelheid *= (0.9 + Math.random() * 0.1);
             mirrorImage();
         } else {
             try {
@@ -81,12 +81,7 @@ public class Zwemmer {
     }
 
     public void beweeg() {
-        try {
-            Thread.sleep(1); // Adjust the delay time as needed (in milliseconds)
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        x += richting * (snelheid * (0.7 + Math.random()*0.5));
+        x += richting * (snelheid * (0.7 + Math.random() * 0.5));
     }
 
     public void stop() {

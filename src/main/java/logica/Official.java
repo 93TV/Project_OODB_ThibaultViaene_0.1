@@ -36,9 +36,7 @@ public class Official {
     }
 
     @Override
-    public String toString() {
-        return "Official ID: " + id + " - Functie: " + functie;
-    }
+    public String toString() {return "Official ID: " + id + " - Functie: " + functie;}
     public String toString2() {
         return "Official ID: " + id + " " + naam + " " + voornaam;
     }

@@ -540,24 +540,25 @@ public class DataLaag {
     public ArrayList<Deelname> getDeelnamesSerie(int serieId) throws SQLException {
         ArrayList<Deelname> deelnames = new ArrayList<>();
         Statement stmt = this.con.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
-        ResultSet rs = stmt.executeQuery("Select * FROM deelnames WHERE serie_id = '" + serieId + "'");
+        ResultSet rs = stmt.executeQuery("Select * FROM deelnames INNER JOIN personen ON zwemmer_id = personen.id WHERE serie_id = '" + serieId + "'");
         while (rs.next()) {
-            int zwemmerId = rs.getInt("zwemmer_id");
+            String naam = rs.getString("naam");
+            String vnaam = rs.getString("voornaam");
             int baan = rs.getInt("baan");
             Time resultaat = rs.getTime("resultaat");
-            deelnames.add(new Deelname(zwemmerId, baan, resultaat, serieId));
+            deelnames.add(new Deelname(baan, resultaat, vnaam,naam));
         }
         return deelnames;
     }
 
-    public ArrayList<Besttijd> getZwemmersEnBesttijden(int progId, int serieId) throws SQLException {
+    public ArrayList<Besttijd> getZwemmersEnBesttijden(int serieId) throws SQLException {
         ArrayList<Besttijd> zwemmersEnBesttijden = new ArrayList<>();
         Statement stmt = this.con.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
         ResultSet rs = stmt.executeQuery("SELECT naam, voornaam, slag, afstand, besttijd FROM personen\n" +
                 "INNER JOIN deelnames ON personen.id = deelnames.zwemmer_id\n" +
                 "INNER JOIN besttijden ON besttijden.zwemmer_id = deelnames.zwemmer_id\n" +
                 "INNER JOIN programmas ON besttijden.programma_id = programmas.id\n" +
-                "WHERE  besttijden.programma_id = '" + progId + "' AND serie_id = '" + serieId + "'");
+                "WHERE  serie_id = '" + serieId + "'");
         while (rs.next()) {
             String achterNaam = rs.getString("naam");
             String voorNaam = rs.getString("voornaam");

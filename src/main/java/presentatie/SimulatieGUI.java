@@ -28,6 +28,7 @@ public class SimulatieGUI {
     private JLabel labelTime9;
     private JLabel labelTime10;
     private JLabel labelTimer;
+    private JLabel labelNaam1;
 
     private MijnTekenPanel mijnTekenPanel;
     private Timer timer;
@@ -116,7 +117,7 @@ public class SimulatieGUI {
                             try {
                                 for (Deelname dl : dl.getDeelnamesSerie(comboBoxSerie.getSelectedIndex() + 1)) {
 
-                                    deelnames += dl + labelTime2.getText() + "\n ";
+                                    deelnames += dl.toString2() +  "\n ";
                                 }
                             } catch (SQLException ex) {
                                 throw new RuntimeException(ex);

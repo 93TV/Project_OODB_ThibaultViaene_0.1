@@ -14,6 +14,8 @@ public class Deelname {
     private int baan;
     private Time resultaat;
 
+    private String naam;
+    private String vnaam;
 
     public Deelname(int zwemmerId, int serieId, int baan) {
         this.zwemmerId = zwemmerId;
@@ -26,6 +28,13 @@ public class Deelname {
         this.baan = baan;
         this.resultaat = resultaat;
         this.serieId = serieId;
+    }
+
+    public Deelname(int baan, Time resultaat, String naam, String vnaam) {
+        this.baan = baan;
+        this.resultaat = resultaat;
+        this.naam = naam;
+        this.vnaam = vnaam;
     }
 
     public int getZwemmerId() {
@@ -43,6 +52,12 @@ public class Deelname {
 
     @Override
     public String toString() {
-        return "Zwemmer_ID: " + zwemmerId + " / Serie: " + serieId + " / baan : " + baan + " / resultaat : " + resultaat;
+        return vnaam + " " + naam + " / baan : " + baan + " / resultaat : " + resultaat;
+//        return "Zwemmer_ID: " + zwemmerId + " / Serie: " + serieId + " / baan : " + baan + " / resultaat : " + resultaat;
     }
+
+    public String toString2() {
+        return vnaam + " " + naam + " / baan : " + baan + " / resultaat : " + resultaat;
+    }
+
 }
